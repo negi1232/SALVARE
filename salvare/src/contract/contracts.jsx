@@ -44,6 +44,19 @@ class Contracts_MetaMask {
         window.location.reload();
 
     }
+    async get_address() {
+        try {
+
+            if (ethereum) {
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                return accounts[0];
+            } else {
+                console.log("Ethereum object does not exist");
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
     async sign() {
         const accounts = await provider.listAccounts();
         const account = accounts[0];
