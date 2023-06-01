@@ -44,6 +44,23 @@ class Contracts_MetaMask {
         window.location.reload();
 
     }
+    async sign() {
+        const accounts = await provider.listAccounts();
+        const account = accounts[0];
+        
+        // 署名するメッセージ
+        const message = 'Hello, world!';
+        
+        // メッセージの署名
+        const signature = await provider.getSigner(account).signMessage(message);
+        
+        console.log("Signature:", signature);
+        const { v, r, s } = ethers.utils.splitSignature(signature);
+        console.log("v:", v);
+        console.log("r:", r);
+        console.log("s:", s);
+
+    }
 
 }
 

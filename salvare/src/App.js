@@ -25,23 +25,30 @@ function App() {
 
     get_variable();
   }, [])
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  if(is_connect==false){
+    cont.connectWallet();
+  }
+  else{
+    return (
+      <div className="App">
+        <header className="App-header">
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+          <button type="button" class="btn btn-dark" onClick={() => { cont.sign() }} >connect MetaMask</button>
+        </header>
+      </div>
+    );
+  }
 }
 
 export default App;
