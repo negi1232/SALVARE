@@ -15,6 +15,7 @@ function App() {
     const get_variable = async () => {
       setChain_id(await cont.get_chain_id());
       setIs_connect(await cont.isMetaMaskConnected());
+      
     }
 
     if (window.ethereum) {
@@ -25,7 +26,6 @@ function App() {
         window.location.reload();
       });
     }
-
     get_variable();
   }, [])
 
