@@ -1,8 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { Contracts_MetaMask } from './contract/contracts';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Modal_change_network from "./contract/Modal_change_network";
+import Modal_login from "./contract/Modal_login";
 import List_top from "./pages/detail/home";
 import Detail_top from "./pages/list/home";
+import Nav_menu from "./pages/navbar/navbar";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./app.css"
 function App() {
 
   const cont = new Contracts_MetaMask();
@@ -29,12 +34,7 @@ function App() {
     get_variable();
   }, [])
 
-  if(is_connect==false){
-
-    cont.connectWallet();
-  
-  }
-  else{
+  if (is_connect == true && chain_id == "0x13881" ) {
     return (
        <body>
          <div >
@@ -52,11 +52,19 @@ function App() {
            </BrowserRouter>
          </div>
          <div>
-           {/* <Nav_menu cont={cont} /> */}
+           <Nav_menu cont={cont} />
          </div>
 
        </body>
     );
+  }
+  else{
+    return(
+      <div className="App">
+        {!is_connect && <Modal_login cont={cont} />}
+        <Modal_change_network chain_id={chain_id} cont={cont} />
+      </div>
+    )
   }
 }
 
