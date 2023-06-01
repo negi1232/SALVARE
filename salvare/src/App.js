@@ -1,5 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { Contracts_MetaMask } from './contract/contracts';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import List_top from "./pages/detail/home";
+import Detail_top from "./pages/list/home";
 function App() {
 
   const cont = new Contracts_MetaMask();
@@ -27,26 +30,32 @@ function App() {
   }, [])
 
   if(is_connect==false){
+
     cont.connectWallet();
+  
   }
   else{
     return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <button type="button" class="btn btn-dark" onClick={() => { cont.sign() }} >connect MetaMask</button>
-        </header>
-      </div>
+       <body>
+         <div >
+           <BrowserRouter basename={process.env.PUBLIC_URL}>
+             {/* <Routes>
+               <Route path={'/login'} element={<Login url={'login'} cont={cont}/>}  />
+             </Routes> */}
+             <Routes>
+               <Route path={'/list'} element={<List_top url={'user_page'} cont={cont}/>}  />
+             </Routes>
+             <Routes>
+               <Route path={'/detail/:id'} element={<Detail_top url={'create_quiz'} cont={cont}/>}  />
+             </Routes>
+             
+           </BrowserRouter>
+         </div>
+         <div>
+           {/* <Nav_menu cont={cont} /> */}
+         </div>
+
+       </body>
     );
   }
 }
