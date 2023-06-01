@@ -14,6 +14,7 @@ function App() {
     const get_variable = async () => {
       setChain_id(await cont.get_chain_id());
       setIs_connect(await cont.isMetaMaskConnected());
+      
     }
 
     if (window.ethereum) {
@@ -24,9 +25,12 @@ function App() {
         window.location.reload();
       });
     }
-
     get_variable();
   }, [])
+  if(is_connect==false){
+    cont.connectWallet();
+  }
+  else{
   return (
     <div className="App">
       <header className="App-header">
@@ -42,9 +46,11 @@ function App() {
         >
           Learn React
         </a>
+        <button type="button" class="btn btn-dark" onClick={() => { cont.sign() }} >connect MetaMask</button>
       </header>
     </div>
   );
+  }
 }
 
 export default App;
