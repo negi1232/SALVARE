@@ -57,12 +57,12 @@ class Contracts_MetaMask {
             console.log(err);
         }
     }
-    async sign() {
+    async sign(message,setJson) {
         const accounts = await provider.listAccounts();
         const account = accounts[0];
         
-        // 署名するメッセージ
-        const message = 'Hello, world!';
+        // // 署名するメッセージ
+        // const message = 'Hello, world!';
         
         // メッセージの署名
         const signature = await provider.getSigner(account).signMessage(message);
@@ -72,6 +72,16 @@ class Contracts_MetaMask {
         console.log("v:", v);
         console.log("r:", r);
         console.log("s:", s);
+
+        setJson({
+            "public_address":account,
+            "message":message,
+            "signature":signature,
+            "v":v,
+            "r":r,
+            "s":s
+        })
+
 
     }
 
