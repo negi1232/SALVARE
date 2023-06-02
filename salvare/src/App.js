@@ -3,8 +3,8 @@ import { Contracts_MetaMask } from './contract/contracts';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Modal_change_network from "./contract/Modal_change_network";
 import Modal_login from "./contract/Modal_login";
-import List_top from "./pages/detail/home";
-import Detail_top from "./pages/list/home";
+import Detail_top from "./pages/detail/home";
+import List_top from "./pages/list/home";
 import Nav_menu from "./pages/navbar/navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./app.css"
@@ -46,7 +46,7 @@ function App() {
                <Route path={'/list'} element={<List_top url={'user_page'} cont={cont}/>}  />
              </Routes>
              <Routes>
-               <Route path={'/detail/:id'} element={<Detail_top url={'create_quiz'} cont={cont}/>}  />
+               <Route path={'/detail'} element={<Detail_top url={'create_quiz'} cont={cont}/>}  />
              </Routes>
              
            </BrowserRouter>
