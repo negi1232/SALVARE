@@ -20,7 +20,7 @@ function App() {
     const get_variable = async () => {
       setChain_id(await cont.get_chain_id());
       setIs_connect(await cont.isMetaMaskConnected());
-      
+
     }
 
     if (window.ethereum) {
@@ -36,7 +36,7 @@ function App() {
 
   if (is_connect == true && chain_id == "0x13881" ) {
     return (
-       <body>
+       <>
          <div >
            <BrowserRouter basename={process.env.PUBLIC_URL}>
              {/* <Routes>
@@ -48,14 +48,14 @@ function App() {
              <Routes>
                <Route path={'/detail/:id'} element={<Detail_top url={'create_quiz'} cont={cont}/>}  />
              </Routes>
-             
+
            </BrowserRouter>
          </div>
          <div>
            <Nav_menu cont={cont} />
          </div>
 
-       </body>
+       </>
     );
   }
   else{
