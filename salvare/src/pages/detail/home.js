@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams } from "react-router-dom";
 import QRCodeComponent from './component/qr_code';
-import MapComponent from './component/map';
+import MapComponent from './component/Map';
 import { MapContainer, TileLayer } from 'react-leaflet'
-import './component/map.css'
+import './component/Map.css'
 function Detail_top(props) {
 
 
     const [json, Setjson] = useState({})
     const [data, setData] = useState(null);
     const [position, setPosition] = useState([0,0]);
-    
+
     const id = useParams()["id"];
-    
+
     //初回のみ実行
     useEffect(() => {
         const get_variable = async () => {
@@ -31,8 +31,8 @@ function Detail_top(props) {
 
     if (data!=null) {
 
-        console.log(data); 
-        console.log(position);
+        console.log(data);
+        console.log(position,"position");
         console.log(id);
         return (
             <>
@@ -56,11 +56,16 @@ function Detail_top(props) {
                     依頼主<br />
                     {data["owner"]}
                 </div>
-                
-                <MapComponent position={position} />
 
+                <MapComponent
+                    position={position}
+                    location_address={data["location_address"]}
+                    amount={parseInt(data["amount"])}
+                    max_amount={parseInt(data["max_amount"])}
+                    reward={parseInt(data["reward"])}
+                    owner={parseInt(data["owner"])}
+                />
 
-                a
                 {/* <QRCodeComponent json={json} /> */}
                 <br />
                 <button type="button" class="btn btn-dark" onClick={() => { props.cont.sign(data.toString(), Setjson) }} >仕事を開始する</button>
