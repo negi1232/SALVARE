@@ -1,6 +1,9 @@
 import React from 'react';
 import "./Map.css"
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+
+import TrashCanChart from './TrashCanChart';
+
 const MapComponent = ({
       position,
       location_address,
@@ -41,6 +44,9 @@ const MapComponent = ({
                 alt="in-front-of-hachko"
                 />
               </div>
+
+              <TrashCanChart amount={amount} max_amount={max_amount} />
+
             </div>
 
         </Popup>
