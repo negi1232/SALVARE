@@ -51,12 +51,12 @@ function Nav_menu(props) {
             
             <div className='col-3'>
                 <Nav.Item>
-                  <Nav.Link eventKey="/create_quiz" href={process.env.PUBLIC_URL+"/create_quiz"}>
+                  <Nav.Link eventKey="/detail" href={process.env.PUBLIC_URL+"/detail"}>
                     <div className='col-12 '>
                       <MdOutlineQuiz size={30}/>
                     </div>
                     <div className='col-12 d-flex justify-content-center align-items-center'>
-                      <font size="2">出題</font>
+                      <font size="2">開始</font>
                     </div>
                   </Nav.Link>
                 </Nav.Item>
