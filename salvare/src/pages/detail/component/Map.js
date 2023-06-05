@@ -43,17 +43,19 @@ const MapComponent = ({
               />
             </div>
             <TrashCanChart amount={amount} max_amount={max_amount} />
-            {/* <QRCodeComponent json={json} /> */}
-            <br />
-            <button
-              type="button"
-              class="btn btn-dark"
-              onClick={() => {
-                cont.sign(data.toString(), Setjson)
-              }}
-            >
-              仕事を開始する
-            </button>
+            <div className="start-work-button">
+              {/* <QRCodeComponent json={json} /> */}
+              {/* <br /> */}
+              <button
+                type="button"
+                className="btn btn-dark"
+                onClick={() => {
+                  cont.sign(data.toString(), Setjson)
+                }}
+              >
+                仕事を開始する
+              </button>
+            </div>
           </div>
         </Popup>
       </Marker>
