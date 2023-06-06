@@ -27,7 +27,7 @@ contract SALVARE is ERC20 {
     Garbage_can[] garbage_cans;
     mapping(address => uint256) public garbage_can_list;
 
-    mapping(address => uint256) public address2work; //uint [gram,reward]
+    mapping(address => uint256) public address2gram; //uint [gram,reward]
 
     function init_garbage_can() private {
         //ゴミ箱を登録
@@ -130,6 +130,16 @@ contract SALVARE is ERC20 {
         ); //識別用のダミーを作成garbage_can_list[msg.sender]=1;
     }
 
+    function isWorking( address worker ) public view returns ( bool ) {
+        if ( address2gram > 0 ){
+            // working
+
+        } else {
+            // not working
+
+        }
+    }
+
     function set_amount_of_trash(uint256 _new_amount) public {
         //ゴミ箱からのトランザクションのみ受け付ける
         //require(garbage_can_list[msg.sender]==0,"you are not garbage can");
@@ -160,7 +170,7 @@ contract SALVARE is ERC20 {
         //is_workに運んでいる量を記録 mapping (address=>[uint 256,uint 256]) work
         address worker = verifySignature(messageHash, signature);
         // gram != 0 -> isWorking
-        address2work[worker] = gram;
+        address2gram[worker] = gram;
     }
 
     function done_work(
