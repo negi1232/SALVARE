@@ -71,7 +71,7 @@ const TrashCanChart = ({ amount, max_amount }) => {
   return (
     <div>
         <Doughnut data={generateChartData()} options={options} />
-        <div style={{ position: 'absolute', bottom: '20%', left: '50%', transform: 'translate(-50%, -50%)'}}>
+        <div style={{ position: 'absolute', bottom: '17.5%', left: '50%', transform: 'translate(-50%, -50%)'}}>
             {renderEmotionIcon()}
         </div>
     </div>
