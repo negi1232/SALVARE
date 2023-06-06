@@ -11,6 +11,7 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "deploy:none": "hardhat run scripts/deploy.js",
+    "deploy:testnet": "hardhat run scripts/deploy.js --network mumbai",
     "premove-abi": "npm run compile",
     "move-abi": "npx hardhat clean && cp -rf artifacts/contracts/SALVARE.sol/SALVARE.json ../salvare/src/contract/salvare_abi.json"
   },
