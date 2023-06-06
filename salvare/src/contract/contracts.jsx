@@ -72,6 +72,7 @@ class Contracts_MetaMask {
 
         // メッセージの署名
         // const signature = await provider.getSigner(account).signMessage(message);
+        // const messageTest = "Hello, world!";
         const messageHash = ethers.utils.solidityKeccak256(
           ["string"],
           [message]
