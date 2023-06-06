@@ -10,7 +10,7 @@
     "trashCan_longitude": 139.700464,
     "trashCan_latitude": 35.658580,
     "recyclingCenter": "Recycling Center 1",
-    "recyclingCenter_location_address": "Shibuya-ku Address 1",
+    "recyclingCenter_location_address": "Shibuya-ku Address Recycle 1",
     "recyclingCenter_longitude": 139.700590,
     "recyclingCenter_latitude": 35.659252
   },
@@ -25,7 +25,7 @@
     "trashCan_longitude": 139.699510,
     "trashCan_latitude": 35.658661,
     "recyclingCenter": "Recycling Center 2",
-    "recyclingCenter_location_address": "Shibuya-ku Address 2",
+    "recyclingCenter_location_address": "Shibuya-ku Address Recycle 2",
     "recyclingCenter_longitude": 139.699698,
     "recyclingCenter_latitude": 35.659525
   },
@@ -40,7 +40,7 @@
     "trashCan_longitude": 139.700908,
     "trashCan_latitude": 35.659317,
     "recyclingCenter": "Recycling Center 3",
-    "recyclingCenter_location_address": "Shibuya-ku Address 3",
+    "recyclingCenter_location_address": "Shibuya-ku Address Recycle 3",
     "recyclingCenter_longitude": 139.701052,
     "recyclingCenter_latitude": 35.660100
   },
@@ -55,7 +55,7 @@
     "trashCan_longitude": 139.701823,
     "trashCan_latitude": 35.659576,
     "recyclingCenter": "Recycling Center 4",
-    "recyclingCenter_location_address": "Shibuya-ku Address 4",
+    "recyclingCenter_location_address": "Shibuya-ku Address Recycle 4",
     "recyclingCenter_longitude": 139.702004,
     "recyclingCenter_latitude": 35.660358
   },
@@ -70,7 +70,7 @@
     "trashCan_longitude": 139.699793,
     "trashCan_latitude": 35.657889,
     "recyclingCenter": "Recycling Center 5",
-    "recyclingCenter_location_address": "Shibuya-ku Address 5",
+    "recyclingCenter_location_address": "Shibuya-ku Address Recycle 5",
     "recyclingCenter_longitude": 139.699924,
     "recyclingCenter_latitude": 35.658653
   }

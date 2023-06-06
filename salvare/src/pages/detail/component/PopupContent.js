@@ -3,26 +3,24 @@ import TrashCanChart from './TrashCanChart';
 import { Modal, Button } from 'react-bootstrap';
 import RangeSlider from 'react-bootstrap-range-slider';
 import './PopupContent.css';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import QRCodeComponent from './qr_code';
 const PopupContent = ({ pin, cont, isOpen, closeModal }) => {
   const [json, setJson] = React.useState(null);
   const [value, setValue] = useState(0);
   useEffect(() => {
-    if (value == 100) {
+    if (value === 100) {
       cont.sign(pin.join(','), setJson);
     }
-  }, [value]);
+  }, [ value, cont, pin ]);
 
     return (
-
-
       <Modal show={isOpen} onHide={closeModal}>
         <Modal.Header closeButton>
-          <Modal.Title>モーダルのタイトル</Modal.Title>
+          <Modal.Title>{pin.location_address}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>Location: {pin.trashCan_location_address}</h4>
+          <h4>Location Info:</h4>
           <p>Amount: {parseInt(pin["amount"]["_hex"])}グラム</p>
           <p>Max Amount: {parseInt(pin["max_amount"]["_hex"])}グラム</p>
           <p>Reward: {parseInt(pin["reward"]["_hex"])}cjpy</p>
@@ -35,6 +33,7 @@ const PopupContent = ({ pin, cont, isOpen, closeModal }) => {
             center={[parseFloat(pin["lat"]["_hex"] / 100000000000000), parseFloat(pin["lot"]["_hex"] / 100000000000000)]}
             zoom={16}
             style={{ height: '50vh', width: '100%' }}
+            dragging={false}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -44,11 +43,7 @@ const PopupContent = ({ pin, cont, isOpen, closeModal }) => {
             <Marker
               key={1}
               position={[parseFloat(pin["lat"]["_hex"] / 100000000000000), parseFloat(pin["lot"]["_hex"] / 100000000000000)]}
-
             >
-
-
-
             </Marker>
           </MapContainer>
 
@@ -68,7 +63,7 @@ const PopupContent = ({ pin, cont, isOpen, closeModal }) => {
               />
             </div>
           </div>:
-          
+
           <div className='row' style={{ "marginTop": "50px" }}>
             <div className='col-1' />
             <div className='col-10'>
@@ -86,7 +81,7 @@ const PopupContent = ({ pin, cont, isOpen, closeModal }) => {
         </Modal.Footer>
       </Modal>
     );
-  
+
 
 };
 
