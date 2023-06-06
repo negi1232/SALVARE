@@ -219,17 +219,22 @@ contract SALVARE is ERC20 {
             ECDSA.recover(ECDSA.toEthSignedMessageHash(messageHash), signature);
     }
 
+    event StartWork(address indexed worker, uint256 indexed id);
+
     function startWork(
-        uint256 gram,
+        uint256 trashWeight,
         bytes32 messageHash,
-        bytes memory signature
+        bytes memory signature,
+        uint256 id
     ) public {
         //ゴミ箱からのトランザクションのみ受け付ける
         //署名を検証しワーカーのアドレスを取得
         //is_workに運んでいる量を記録 mapping (address=>[uint 256,uint 256]) work
         address worker = verifySignature(messageHash, signature);
-        // gram != 0 -> isWorking
-        workerToWork[worker].gram = gram;
+        // trashWeight != 0 -> isWorking
+        workerToWork[worker].gram = trashWeight;
+        workerToWork[worker].id = id;
+        emit StartWork(worker, id);
     }
 
     function doneWork(
@@ -247,8 +252,7 @@ contract SALVARE is ERC20 {
         if ( trashWeight - trashWeight/10 < actualWeight){
             transfer(worker, actualWeight * 1*10**18);
         }
-        //if(gram>=work[0]-1000 ||gram<=work[0]+1000){
-        //transfer(address_worker, work[1]);
-        //}
+        workerToWork[worker].gram = 0;
+        workerToWork[worker].id = 0;
     }
 }
