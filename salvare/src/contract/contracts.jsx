@@ -112,10 +112,10 @@ class Contracts_MetaMask {
       console.log(err);
     }
   }
-  async get_garbage_cans() {
+  async getTrashCans() {
     try {
       if (ethereum) {
-        return await SALVARE_Contract.get_garbage_cans();
+        return await SALVARE_Contract.getTrashCans();
       } else {
         console.log("Ethereum object does not exist");
       }

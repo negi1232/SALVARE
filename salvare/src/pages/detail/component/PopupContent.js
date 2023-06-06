@@ -19,9 +19,6 @@ const PopupContent = ({ pin, rcPins, cont, isOpen, closeModal }) => {
     }
   }, [ value, cont, pin ]);
 
-  const getInfoById = (id) => {
-  return rcPins.find(item => item.id === id);
-  };
 
   const customIcon = L.icon({
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
@@ -30,6 +27,8 @@ const PopupContent = ({ pin, rcPins, cont, isOpen, closeModal }) => {
     popupAnchor: [0, -41],
   });
 
+
+    
     return (
       <Modal show={isOpen} onHide={closeModal}>
         <Modal.Header closeButton>
@@ -37,16 +36,17 @@ const PopupContent = ({ pin, rcPins, cont, isOpen, closeModal }) => {
         </Modal.Header>
         <Modal.Body>
           <h4>Location Info:</h4>
-          <p>Amount: {parseInt(pin["amount"]["_hex"])}グラム</p>
-          <p>Max Amount: {parseInt(pin["max_amount"]["_hex"])}グラム</p>
-          <p>Reward: {parseInt(pin["reward"]["_hex"])}cjpy</p>
-          <p>Owner: {pin["owner"].slice(0, 10)}</p>
+          <p>Amount: {parseInt(pin.trashCanAmount._hex)}グラム</p>
+          <p>Max Amount: {parseInt(pin.trashCanMaxAmount._hex)}グラム</p>
+          <p>Reward: {parseInt(pin.trashCanReward._hex)}cjpy</p>
+          <p>Owner: {pin.trashCanOwner.slice(0, 10)}</p>
 
-          <TrashCanChart amount={parseInt(pin["amount"])} max_amount={parseInt(pin["max_amount"])} />
+          <TrashCanChart amount={parseInt(pin.trashCanAmount)} max_amount={parseInt(pin.trashCanMaxAmount)} />
 
-          <p>Recycling Center: {pin["recycling_center"]["location_address"]}</p>
+          <p>Recycling Center: {pin.recyclingCenter.recyclingCenterName}</p>
           <MapContainer
-            center={[parseFloat(pin["lat"]["_hex"] / 100000000000000), parseFloat(pin["lot"]["_hex"] / 100000000000000)]}
+            center={[(parseInt(pin.recyclingCenter.recyclingCenterLatitude._hex) + parseInt(pin.trashCanLatitude._hex )) /100000000000000/ 2,
+            (parseInt(pin.recyclingCenter.recyclingCenterLongitude._hex) + parseInt(pin.trashCanLongitude._hex))/ 100000000000000/2]}
             zoom={16}
             style={{ height: '50vh', width: '100%' }}
             dragging={false}
@@ -60,18 +60,19 @@ const PopupContent = ({ pin, rcPins, cont, isOpen, closeModal }) => {
             <Marker
               key={1}
               position={
-                [parseFloat(pin["lat"]["_hex"] / 100000000000000),
-                  parseFloat(pin["lot"]["_hex"] / 100000000000000)]}
+                [parseFloat(pin.trashCanLatitude._hex / 100000000000000),
+                 parseFloat(pin.trashCanLongitude._hex / 100000000000000)]}
             />
-
+            
             {/* Recycling center location from dummy data*/}
             <Marker
               key={2}
               position={
-                [parseFloat(getInfoById(4).recyclingCenter_latitude),
-                  parseFloat(getInfoById(4).recyclingCenter_longitude)]}
-              icon={customIcon}
+                [parseFloat(pin.recyclingCenter.recyclingCenterLatitude._hex / 100000000000000),
+                parseFloat(pin.recyclingCenter.recyclingCenterLongitude._hex / 100000000000000)]}
+                icon={customIcon}
             />
+
           </MapContainer>
 
           {!json ?
@@ -81,7 +82,7 @@ const PopupContent = ({ pin, rcPins, cont, isOpen, closeModal }) => {
             <div className='col-10'>
               <RangeSlider
                 value={value}
-                onChange={changeEvent => setValue(changeEvent.target.value)}
+                onChange={changeEvent => setValue(parseInt(changeEvent.target.value))}
                 style={{
                   width: '100%',
                   backgroundColor: 'blue',
