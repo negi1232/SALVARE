@@ -8,13 +8,16 @@ import QRCodeComponent from './qr_code';
 
 import L from 'leaflet';
 
-const PopupContent = ({ pin, rcPins, cont, isOpen, closeModal }) => {
+const PopupContent = ({ pin, rcPins, cont,setId, isOpen, closeModal }) => {
 
   const [json, setJson] = React.useState(null);
   const [value, setValue] = useState(0);
 
   useEffect(() => {
     if (value === 100) {
+
+      //イベントリスナーを設定
+      cont.event_start_work(parseInt(pin.id._hex),setId);
       cont.sign(pin.join(','), setJson);
     }
   }, [ value, cont, pin ]);
@@ -80,6 +83,7 @@ const PopupContent = ({ pin, rcPins, cont, isOpen, closeModal }) => {
           <div className='row' style={{ "marginTop": "50px" }}>
             <div className='col-1' />
             <div className='col-10'>
+              <label>仕事を開始する</label>
               <RangeSlider
                 value={value}
                 onChange={changeEvent => setValue(parseInt(changeEvent.target.value))}

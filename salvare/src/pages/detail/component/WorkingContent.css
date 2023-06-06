@@ -1,0 +1,31 @@
+input[type="range"] { 
+    margin: auto;
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    height: 40px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 50px;
+    
+}
+
+::-webkit-slider-runnable-track {
+    background: rgb(216, 216, 216);
+}
+
+/*
+ * 1. Set to 0 width and remove border for a slider without a thumb
+ * 2. Shadow is negative the full width of the input and has a spread 
+ *    of the width of the input.
+ */
+::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 50px; /* 1 */
+    height: 40px;
+    background: #fff;
+    box-shadow: -1000px 0 0 980px rgb(157, 149, 252); /* 2 */
+    border: 2px solid #999; /* 1 */
+    border-radius: 50px;
+}
+
