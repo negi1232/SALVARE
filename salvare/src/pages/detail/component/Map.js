@@ -13,7 +13,7 @@ const MapComponent = ({
       owner
     }) => {
 
-  console.log(position);
+  console.log(position, "from Map");
 
     return (
         <MapContainer center={[position[0],position[1]]} zoom={25} scrollWheelZoom={false} >
