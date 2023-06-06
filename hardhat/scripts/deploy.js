@@ -1,31 +1,44 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
-const hre = require("hardhat");
+const { ethers, run } = require("hardhat");
+
+const { TEST_NET_CHAIN_ID } = require("../helpers/constants");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  const network = await ethers.provider.getNetwork();
+  console.log("network chainId:", network.chainId);
+  console.log("network name:", network.name);
 
-  const lockedAmount = hre.ethers.utils.parseEther("0.001");
+  let salvare;
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  // Deploy SALVARE contract
+  const SALVARE = await ethers.getContractFactory("SALVARE");
+  salvare = await SALVARE.deploy();
+  await salvare.deployed();
+  console.log("SALVARE deployed to:", salvare.address);
 
-  await lock.deployed();
+  if (network.chainId === TEST_NET_CHAIN_ID) {
+    console.log("Start verifying contracts...");
 
-  console.log(
-    `Lock with ${ethers.utils.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+    console.log("Waiting for 10 seconds before verification...");
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+
+    if (network.chainId === TEST_NET_CHAIN_ID) {
+      console.log("==========================");
+      console.log("Verifying SALVARE...");
+      try {
+        await run("verify:verify", {
+          address: registry.address,
+          constructorArguments: [],
+        });
+      } catch (e) {
+        console.log("Failed to verify SALVARE");
+        console.log(e);
+      }
+
+      console.log("==========================");
+    }
+  }
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;

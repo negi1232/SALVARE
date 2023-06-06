@@ -9,7 +9,10 @@
   "scripts": {
     "clean": "hardhat clean",
     "compile": "hardhat compile",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "deploy:none": "hardhat run scripts/deploy.js",
+    "premove-abi": "npm run compile",
+    "move-abi": "npx hardhat clean && cp -rf artifacts/contracts/SALVARE.sol/SALVARE.json ../salvare/src/contract/salvare_abi.json"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",
