@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import QRCodeComponent from './component/qr_code'
+import ShowPins from './component/ShowPins';
 import MapComponent from './component/Map'
 import { MapContainer, TileLayer } from 'react-leaflet'
 import './component/Map.css'
@@ -34,6 +35,7 @@ function Detail_top(props) {
     console.log(id)
     return (
       <>
+       <ShowPins />
         <div>
           住所
           <br />
@@ -59,7 +61,6 @@ function Detail_top(props) {
           <br />
           {data['owner']}
         </div>
-
         <MapComponent
           position={position}
           location_address={data['location_address']}
