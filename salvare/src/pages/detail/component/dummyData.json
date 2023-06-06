@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "location_address": "Address 1",
+    "amount": 10,
+    "max_amount": 200,
+    "reward": 1,
+    "owner": "Owner 1",
+    "location_image": "https://images.unsplash.com/photo-1683814379330-850b83821645?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1631&q=80",
+    "longitude": 139.700464,
+    "latitude": 35.658580,
+    "client": "Client 1",
+    "client_longitude": 139.700590,
+    "client_latitude": 35.659252
+  },
+  {
+    "id": 2,
+    "location_address": "Address 2",
+    "amount": 15,
+    "max_amount": 300,
+    "reward": 2,
+    "owner": "Owner 2",
+    "location_image": "https://images.unsplash.com/photo-1683814379330-850b83821645?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1631&q=80",
+    "longitude": 139.699510,
+    "latitude": 35.658661,
+    "client": "Client 2",
+    "client_longitude": 139.699698,
+    "client_latitude": 35.659525
+  },
+  {
+    "id": 3,
+    "location_address": "Address 3",
+    "amount": 300,
+    "max_amount": 400,
+    "reward": 3,
+    "owner": "Owner 3",
+    "location_image": "https://images.unsplash.com/photo-1683814379330-850b83821645?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1631&q=80",
+    "longitude": 139.700908,
+    "latitude": 35.659317,
+    "client": "Client 3",
+    "client_longitude": 139.701052,
+    "client_latitude": 35.660100
+  },
+  {
+    "id": 4,
+    "location_address": "Address 4",
+    "amount": 40,
+    "max_amount": 500,
+    "reward": 4,
+    "owner": "Owner 4",
+    "location_image": "https://images.unsplash.com/photo-1683814379330-850b83821645?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1631&q=80",
+    "longitude": 139.701823,
+    "latitude": 35.659576,
+    "client": "Client 4",
+    "client_longitude": 139.702004,
+    "client_latitude": 35.660358
+  },
+  {
+    "id": 5,
+    "location_address": "Address 5",
+    "amount": 400,
+    "max_amount": 600,
+    "reward": 5,
+    "owner": "Owner 5",
+    "location_image": "https://images.unsplash.com/photo-1683814379330-850b83821645?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1631&q=80",
+    "longitude": 139.699793,
+    "latitude": 35.657889,
+    "client": "Client 5",
+    "client_longitude": 139.699924,
+    "client_latitude": 35.658653
+  }
+]
