@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import PopupContent from './PopupContent';
 
+import dummyData from './dummyData.json';
+
 const ShowPins = (props) => {
   const [pins, setPins] = useState([]);
-  const [mapCenter, setMapCenter] = useState([35.658580, 139.701664]);
+  const [rcPins, setRcPins] = useState([]);
+  const [mapCenter, ] = useState([35.658580, 139.701664]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [active_pin,setActive_pin]=useState(null);
 
@@ -27,7 +30,12 @@ const ShowPins = (props) => {
       }
     };
     get_variable();
-  }, [ props.cont ]);
+  }, [props.cont]);
+
+  // fetch data from dummyData
+  useEffect(() => {
+    setRcPins(dummyData);
+  }, []);
 
   if (pins) {
     return (
@@ -44,18 +52,25 @@ const ShowPins = (props) => {
         {pins.map((pin,index) => (
           <Marker
             key={index}
-            position={[parseFloat(pin["lat"]["_hex"] / 100000000000000), parseFloat(pin["lot"]["_hex"] / 100000000000000)]}
+            position={
+              [parseFloat(pin["lat"]["_hex"] / 100000000000000),
+              parseFloat(pin["lot"]["_hex"] / 100000000000000)]}
             eventHandlers={{
               click: () => {
                 handleMarkerClick();
                 setActive_pin(pin);
-                console.log(pin);
               },
             }}
           >
           </Marker>
         ))}
-        {isModalOpen && (<PopupContent pin={active_pin} cont={props.cont} isOpen={isModalOpen} closeModal={closeModal}/>)}
+        {isModalOpen &&
+          (<PopupContent
+            pin={active_pin}
+            rcPins={rcPins}
+            cont={props.cont}
+            isOpen={isModalOpen}
+            closeModal={closeModal} />)}
       </MapContainer>
     );
   }

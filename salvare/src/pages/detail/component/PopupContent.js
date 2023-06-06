@@ -5,14 +5,30 @@ import RangeSlider from 'react-bootstrap-range-slider';
 import './PopupContent.css';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import QRCodeComponent from './qr_code';
-const PopupContent = ({ pin, cont, isOpen, closeModal }) => {
+
+import L from 'leaflet';
+
+const PopupContent = ({ pin, rcPins, cont, isOpen, closeModal }) => {
+
   const [json, setJson] = React.useState(null);
   const [value, setValue] = useState(0);
+
   useEffect(() => {
     if (value === 100) {
       cont.sign(pin.join(','), setJson);
     }
   }, [ value, cont, pin ]);
+
+  const getInfoById = (id) => {
+  return rcPins.find(item => item.id === id);
+  };
+
+  const customIcon = L.icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [0, -41],
+  });
 
     return (
       <Modal show={isOpen} onHide={closeModal}>
@@ -40,11 +56,22 @@ const PopupContent = ({ pin, cont, isOpen, closeModal }) => {
               attribution="Map data &copy; OpenStreetMap contributors"
             />
 
+            {/* trash can location from smart contract */}
             <Marker
               key={1}
-              position={[parseFloat(pin["lat"]["_hex"] / 100000000000000), parseFloat(pin["lot"]["_hex"] / 100000000000000)]}
-            >
-            </Marker>
+              position={
+                [parseFloat(pin["lat"]["_hex"] / 100000000000000),
+                  parseFloat(pin["lot"]["_hex"] / 100000000000000)]}
+            />
+
+            {/* Recycling center location from dummy data*/}
+            <Marker
+              key={2}
+              position={
+                [parseFloat(getInfoById(4).recyclingCenter_latitude),
+                  parseFloat(getInfoById(4).recyclingCenter_longitude)]}
+              icon={customIcon}
+            />
           </MapContainer>
 
           {!json ?

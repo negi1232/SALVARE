@@ -62,7 +62,8 @@ contract SALVARE is ERC20 {
                 13970303583403240,
                 10000,
                 20000,
-                0
+                0,
+                Recycling_Center(unicode"渋谷リサイクルセンター",3565399255456554,13970621156309934)
             )
         ); //識別用のダミーを作成
 
@@ -76,7 +77,8 @@ contract SALVARE is ERC20 {
                 13970375443275780,
                 11000,
                 20000,
-                0
+                0,
+                Recycling_Center(unicode"渋谷リサイクルセンター",3565399255456554,13970621156309934)
             )
         ); //識別用のダミーを作成
 
@@ -90,7 +92,8 @@ contract SALVARE is ERC20 {
                 13970355092249920,
                 1200,
                 20000,
-                0
+                0,
+                Recycling_Center(unicode"渋谷リサイクルセンター",3565399255456554,13970621156309934)
             )
         ); //識別用のダミーを作成
 
@@ -104,7 +107,8 @@ contract SALVARE is ERC20 {
                 13969978926521935,
                 13000,
                 20000,
-                0
+                0,
+                Recycling_Center(unicode"渋谷リサイクルセンター",3565399255456554,13970621156309934)
             )
         ); //識別用のダミーを作成
 
@@ -118,7 +122,8 @@ contract SALVARE is ERC20 {
                 13969982208945464,
                 14000,
                 20000,
-                0
+                0,
+                Recycling_Center(unicode"渋谷リサイクルセンター",3565399255456554,13970621156309934)
             )
         ); //識別用のダミーを作成
 
@@ -132,7 +137,8 @@ contract SALVARE is ERC20 {
                 13970174987485640,
                 15000,
                 20000,
-                0
+                0,
+                Recycling_Center(unicode"渋谷リサイクルセンター",3565399255456554,13970621156309934)
             )
         ); //識別用のダミーを作成garbage_can_list[msg.sender]=1;
     }
@@ -143,10 +149,9 @@ contract SALVARE is ERC20 {
         garbage_cans[garbage_can_list[msg.sender]].amount = _new_amount;
     }
 
-    function get_garbage_can(
-        uint256 id
-    ) public view returns (Garbage_can memory) {
-        return garbage_cans[id];
+    function get_garbage_cans(
+    ) public view returns (Garbage_can [] memory) {
+        return garbage_cans;
     }
 
     function verifySignature(
