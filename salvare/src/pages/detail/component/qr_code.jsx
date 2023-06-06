@@ -6,7 +6,7 @@ const QRCodeComponent = ({ json }) => {
     console.log(jsonString);
     console.log(json);
   return (
-    <QRCode value={jsonString} />
+    <QRCode style={{width:"100%",height:"auto"}} value={jsonString} />
   );
 };
 
