@@ -66,14 +66,7 @@ class Contracts_MetaMask {
       if (ethereum) {
         const accounts = await provider.listAccounts();
         const account = accounts[0];
-        console.log(message);
 
-        // // 署名するメッセージ
-        // const message = 'Hello, world!';
-
-        // メッセージの署名
-        // const signature = await provider.getSigner(account).signMessage(message);
-        // const messageTest = "Hello, world!";
         const messageHash = ethers.utils.solidityKeccak256(
           ["string"],
           [message]
@@ -81,15 +74,18 @@ class Contracts_MetaMask {
         const messageHashBinary = ethers.utils.arrayify(messageHash);
         const signature = await signer.signMessage(messageHashBinary);
 
-        console.log("Signature:", signature);
         const { v, r, s } = ethers.utils.splitSignature(signature);
+
+        console.log(message);
+
+        console.log("Signature:", signature);
         console.log("v:", v);
         console.log("r:", r);
         console.log("s:", s);
 
         setJson({
           public_address: account,
-          message: message,
+          messageHash: messageHash,
           signature: signature,
           v: v,
           r: r,
@@ -123,6 +119,61 @@ class Contracts_MetaMask {
       console.log(err);
     }
   }
+  async getIsWorking() {
+    try {
+      if (ethereum) {
+        const accounts = await provider.listAccounts();
+        const account = accounts[0];
+        return await SALVARE_Contract.getWork(account);
+      } else {
+        console.log("Ethereum object does not exist");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  //event StartWork(address indexed worker, uint256 indexed id);
+  async event_start_work(id,setId) {
+    //emitを受け取る準備
+    const  start_work_filters = SALVARE_Contract.filters["StartWork"];
+    console.log( "start_work_filters");
+    const accounts = await ethereum.request({ method: 'eth_accounts' });
+    const account = accounts[0];
+    console.log(provider.off(start_work_filters(account,id)));
+    console.log(provider.listeners(start_work_filters(account,id)));
+
+    console.log(account,id);
+    provider.once(start_work_filters(account,id), (event) => {
+        console.log("hit");
+        //idを設定
+        setId(parseInt(event.topics[2]));
+    });
+}
+async stop_event_start_work(id) {
+    const  start_work_filters = SALVARE_Contract.filters["StartWork"];
+    console.log("event_create_quiz");
+    const accounts = await ethereum.request({ method: 'eth_accounts' });
+    const account = accounts[0];
+    console.log(provider.off(start_work_filters(account,id)));
+    console.log(provider.listeners(start_work_filters(account,id)));
+}
+async event_transfer(setId) {
+    //emitを受け取る準備
+    const  transfer_filters = SALVARE_Contract.filters["Transfer"];
+    console.log( "transfer_filters");
+    const accounts = await ethereum.request({ method: 'eth_accounts' });
+    const account = accounts[0];
+    console.log(provider.off(transfer_filters(account)));
+    console.log(provider.listeners(transfer_filters(account)));
+
+    provider.once(transfer_filters(null,account,null), (event) => {
+        console.log("hit");
+        //idを設定
+        setId(0);
+    });
+}
+
 }
 
 export { Contracts_MetaMask };

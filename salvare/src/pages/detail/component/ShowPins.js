@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import PopupContent from './PopupContent';
+import WorkingContent from './WorkingContent';
 import TrashCanChart from './TrashCanChart';
 import dummyData from './dummyData.json';
 
@@ -10,6 +11,8 @@ const ShowPins = (props) => {
   const [mapCenter, setMapCenter] = useState([35.658580, 139.700464]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [active_pin,setActive_pin]=useState(null);
+
+  const [id,setId]=useState(0);
 
   const handleMarkerClick = () => {
     setIsModalOpen(true);
@@ -21,20 +24,23 @@ const ShowPins = (props) => {
   };
 
   //初回のみ実行
-  // fetch data from smart contract
+
   useEffect(() => {
     const get_variable = async () => {
       if (await props.cont.isMetaMaskConnected()) {
+        //値を取得
         const _data = await props.cont.getTrashCans();
         setPins(_data);
+        const _data1=await props.cont.getIsWorking()
+        setId(parseInt(_data1.id._hex));
+        console.log(parseInt(_data1.id._hex));
       }
     };
     console.log("useEffect");
     get_variable();
-    console.log(mapCenter)
   }, []);
 
-  if (pins) {
+  if (pins && id===0) {
     return (
       <MapContainer
         center={mapCenter}
@@ -60,13 +66,14 @@ const ShowPins = (props) => {
           >
           </Marker>
         ))}
-        {isModalOpen && (<PopupContent pin={active_pin} cont={props.cont} isOpen={isModalOpen} closeModal={closeModal}/>)}
+        {isModalOpen && (<PopupContent pin={active_pin} cont={props.cont} setId={setId} isOpen={isModalOpen} closeModal={closeModal}/>)}
       </MapContainer>
     );
   }
   else {
+    console.log(pins,id,pins[id]);
     return (
-      <></>
+      <WorkingContent pin={pins[id]} setId={setId} cont={props.cont} />
     );
   };
 }

@@ -35,7 +35,7 @@ contract SALVARE is ERC20 {
 
     constructor() ERC20("SALVAREToken", "SALVARE") {
         _initTrashCan();
-        _mint(address(this), 1000 * 10 ** 18);
+        _mint(address(this), 1000000 * 10 ** 18);
     }
 
     TrashCan[] trashCans;
@@ -247,10 +247,10 @@ contract SALVARE is ERC20 {
         address worker = verifySignature(messageHash, signature);
         //is_workに運んでいる量と報酬を記録 mapping (address=>[uint 256,uint 256]) work
         uint256 trashWeight = workerToWork[worker].gram;
-        // actualWeight is weight of trash on Recycle center 500g
-        // trashWeight is weight of trash brought by Worker 1000g
+        //actualWeight is weight of trash on Recycle center 500g
+        //trashWeight is weight of trash brought by Worker 1000g
         if ( trashWeight - trashWeight/10 < actualWeight){
-            transfer(worker, actualWeight * 1*10**18);
+           _transfer(address(this), worker, trashWeight *10**18);
         }
         workerToWork[worker].gram = 0;
         workerToWork[worker].id = 0;
