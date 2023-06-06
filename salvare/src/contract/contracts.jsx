@@ -66,6 +66,7 @@ class Contracts_MetaMask {
       if (ethereum) {
         const accounts = await provider.listAccounts();
         const account = accounts[0];
+        console.log(message);
 
         // // 署名するメッセージ
         // const message = 'Hello, world!';
@@ -104,6 +105,17 @@ class Contracts_MetaMask {
     try {
       if (ethereum) {
         return await SALVARE_Contract.get_garbage_can(id);
+      } else {
+        console.log("Ethereum object does not exist");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async get_garbage_cans() {
+    try {
+      if (ethereum) {
+        return await SALVARE_Contract.get_garbage_cans();
       } else {
         console.log("Ethereum object does not exist");
       }

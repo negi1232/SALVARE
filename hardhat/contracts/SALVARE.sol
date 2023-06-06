@@ -15,8 +15,14 @@ contract SALVARE is ERC20 {
         uint256 lot;
         uint256 amount;
         uint256 max_amount;
-        //uint time_ephoc;
         uint256 reward;
+        Recycling_Center recycling_center;
+    }
+
+    struct Recycling_Center{
+        string location_address;
+        uint256 lat;
+        uint256 lot;
     }
 
     constructor() ERC20("SALVARE_token", "SALVARE") {
@@ -41,7 +47,8 @@ contract SALVARE is ERC20 {
                 10000,
                 0,
                 0,
-                0
+                0,
+                Recycling_Center("dummy",0,0)
             )
         ); //識別用のダミーを作成
 
