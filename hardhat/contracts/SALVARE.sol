@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 contract SALVARE is ERC20 {
-    mapping(address => uint256) requester_balances;
+    mapping(address => uint256) public requester_balances;
 
     struct Garbage_can {
         address owner;
@@ -20,13 +21,13 @@ contract SALVARE is ERC20 {
 
     constructor() ERC20("SALVARE_token", "SALVARE") {
         init_garbage_can();
-        _mint(address(this),1000*10**18);
+        _mint(address(this), 1000 * 10 ** 18);
     }
 
     Garbage_can[] garbage_cans;
-    mapping(address => uint256) garbage_can_list;
+    mapping(address => uint256) public garbage_can_list;
 
-    mapping (address=>uint256) address2work;//uint [gram,reward]
+    mapping(address => uint256) public address2work; //uint [gram,reward]
 
     function init_garbage_can() private {
         //ゴミ箱を登録
@@ -94,7 +95,6 @@ contract SALVARE is ERC20 {
                 "https://aaaaa.png",
                 3565889013484929,
                 13969978926521935,
-
                 13000,
                 20000,
                 0
@@ -136,49 +136,41 @@ contract SALVARE is ERC20 {
         garbage_cans[garbage_can_list[msg.sender]].amount = _new_amount;
     }
 
-    function get_garbage_can(uint256 id)
-        public
-        view
-        returns (Garbage_can memory)
-    {
+    function get_garbage_can(
+        uint256 id
+    ) public view returns (Garbage_can memory) {
         return garbage_cans[id];
     }
 
     function verifySignature(
         bytes32 messageHash,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
+        bytes memory signature
     ) public pure returns (address) {
-        bytes32 prefixedHash = keccak256(
-            abi.encodePacked("\x19Ethereum Signed Message:\n32", messageHash)
-        );
-        address signer = ecrecover(prefixedHash, v, r, s);
-
-        return signer;
+        return ECDSA.recover(messageHash, signature);
     }
 
     function start_work(
         uint256 gram,
         bytes32 messageHash,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
+        bytes memory signature
     ) public {
         //ゴミ箱からのトランザクションのみ受け付ける
         //署名を検証しワーカーのアドレスを取得
-        verifySignature(messageHash, v, r,s ) ;
         //is_workに運んでいる量を記録 mapping (address=>[uint 256,uint 256]) work
-        address worker=msg.sender;
-        address2work[worker]=gram;
+        address worker = verifySignature(messageHash, signature);
+        address2work[worker] = gram;
     }
 
-    function done_work(uint gram,uint8 v,bytes32 r, bytes32 s,string memory message) public {
-        //集積所からのトランザクションを受け付ける 
+    function done_work(
+        uint gram,
+        bytes32 messageHash,
+        bytes memory signature
+    ) public {
+        //集積所からのトランザクションを受け付ける
         //署名を検証しワーカーのアドレスを取得
         //is_workに運んでいる量と報酬を記録 mapping (address=>[uint 256,uint 256]) work
         //if(gram>=work[0]-1000 ||gram<=work[0]+1000){
-            //transfer(address_worker, work[1]);
+        //transfer(address_worker, work[1]);
         //}
     }
 
