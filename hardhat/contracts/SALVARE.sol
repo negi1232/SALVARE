@@ -159,6 +159,7 @@ contract SALVARE is ERC20 {
         //署名を検証しワーカーのアドレスを取得
         //is_workに運んでいる量を記録 mapping (address=>[uint 256,uint 256]) work
         address worker = verifySignature(messageHash, signature);
+        // gram != 0 -> isWorking
         address2work[worker] = gram;
     }
 
@@ -169,13 +170,20 @@ contract SALVARE is ERC20 {
     ) public {
         //集積所からのトランザクションを受け付ける
         //署名を検証しワーカーのアドレスを取得
+        address worker = verifySignature(messageHash, signature);
         //is_workに運んでいる量と報酬を記録 mapping (address=>[uint 256,uint 256]) work
+        if ( address2gram[worker] < gram + 1000 ){
+            // verify a worker's trash is over 1000g
+            if (address2gram[worker] >= 1000){
+                if ( address2gram[worker] >= gram - 1000 ){
+                    transfer(worker, gram * 100*10**18 );
+                }
+            } else {
+                transfer(worker, gram * 100*10**18 );
+            }
+        }
         //if(gram>=work[0]-1000 ||gram<=work[0]+1000){
         //transfer(address_worker, work[1]);
         //}
-    }
-
-    function with_draw(address _target) public {
-        //払い出しを希望した場合集積所が行う
     }
 }
