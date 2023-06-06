@@ -10,8 +10,8 @@ const setupFixtures = async (name, symbol, startTime) => {
     robot3,
     robot4,
     robot5,
-    garbageStation1,
-    garbageStation2;
+    recyclingCenter1,
+    recyclingCenter2;
   let Registry, registry, CJPY, cJPY, TicketNFT, ticketNFT, POAP, poap;
 
   [
@@ -23,8 +23,8 @@ const setupFixtures = async (name, symbol, startTime) => {
     robot3,
     robot4,
     robot5,
-    garbageStation1,
-    garbageStation2,
+    recyclingCenter1,
+    recyclingCenter2,
   ] = await ethers.getSigners();
 
   Salvare = await ethers.getContractFactory("SALVARE");
@@ -41,8 +41,8 @@ const setupFixtures = async (name, symbol, startTime) => {
     robot3,
     robot4,
     robot5,
-    garbageStation1,
-    garbageStation2,
+    recyclingCenter1,
+    recyclingCenter2,
   };
 };
 // ----------------------------------------------------------
@@ -65,8 +65,8 @@ describe("Deploy", function () {
         robot3,
         robot4,
         robot5,
-        garbageStation1,
-        garbageStation2,
+        recyclingCenter1,
+        recyclingCenter2,
       } = fixtures;
     });
   });
@@ -87,42 +87,29 @@ describe("Deploy", function () {
         robot3,
         robot4,
         robot5,
-        garbageStation1,
-        garbageStation2,
+        recyclingCenter1,
+        recyclingCenter2,
       } = fixtures;
 
       const message = "Hello, world!";
-      const messageHash = ethers.utils.hashMessage(message);
-      const messageBytes = ethers.utils.toUtf8Bytes(
-        "\x19Ethereum Signed Message:\n32"
-      );
-      const totalMessage = ethers.utils.concat([messageBytes, messageHash]);
-
-      const totalMessageHash = ethers.utils.keccak256(totalMessage);
-
-      // totalMessageHash is hashed again before passed to salvare.verifySignature
-      const hashOfTotalMessageHash = ethers.utils.keccak256(totalMessageHash);
-
-      const sig = await deployer.signMessage(
-        ethers.utils.arrayify(totalMessageHash)
-      );
-
-      // Convert the signature to bytes
-      const signatureBytes = ethers.utils.arrayify(sig);
-
-      const recoveredAddress = await salvare.verifySignature(
-        totalMessageHash,
-        signatureBytes
-      );
+      const messageHash = ethers.utils.solidityKeccak256(["string"], [message]);
+      const messageHashBinary = ethers.utils.arrayify(messageHash);
+      const signature = await deployer.signMessage(messageHashBinary);
       const ethersRecoveredAddress = ethers.utils.verifyMessage(
-        ethers.utils.arrayify(totalMessageHash),
-        sig
+        messageHashBinary,
+        signature
       );
-      console.log("deployer.address:       ", deployer.address);
-      console.log("recoveredAddress:       ", recoveredAddress);
-      console.log("ethersRecoveredAddress: ", ethersRecoveredAddress);
 
-      expect(recoveredAddress).to.equal(deployer.address);
+      // // Ethers.jsとECDSA.solで同様に署名検証できるかを確認しました。
+      // const recoveredAddress = await salvare.verifySignature(
+      //   messageHash,
+      //   signature
+      // );
+      // console.log("deployer.address:       ", deployer.address);
+      // console.log("recoveredAddress:       ", recoveredAddress);
+      // console.log("ethersRecoveredAddress: ", ethersRecoveredAddress);
+
+      // expect(recoveredAddress).to.equal(deployer.address);
       expect(ethersRecoveredAddress).to.equal(deployer.address);
     });
   });

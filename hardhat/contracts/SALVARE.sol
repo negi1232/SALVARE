@@ -146,7 +146,8 @@ contract SALVARE is ERC20 {
         bytes32 messageHash,
         bytes memory signature
     ) public pure returns (address) {
-        return ECDSA.recover(messageHash, signature);
+        return
+            ECDSA.recover(ECDSA.toEthSignedMessageHash(messageHash), signature);
     }
 
     function start_work(
