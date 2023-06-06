@@ -26,7 +26,7 @@ async function main() {
       console.log("Verifying SALVARE...");
       try {
         await run("verify:verify", {
-          address: registry.address,
+          address: salvare.address,
           constructorArguments: [],
         });
       } catch (e) {
