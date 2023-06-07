@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { MdBalance } from 'react-icons/md';
+import React, { useState } from 'react';
 import ShowPins from "./component/ShowPins";
 import "./home.css";
 
@@ -18,12 +17,10 @@ function DetailTop(props) {
     setBalance(props.cont.event_transfer());
   }, [])
   
-  
-
   return (
     <>
 
-  
+
       <div>
         <ShowPins cont={props.cont} />
       </div>

@@ -1,4 +1,4 @@
-import { salvare_address } from "./config";
+// import { salvare_address } from "./config";
 import { ethers } from "ethers";
 import salvare_abi_json from "./salvare_abi.json";
 import salvare_data from "./contracts-data/mumbai/SALVARE-data.json";
