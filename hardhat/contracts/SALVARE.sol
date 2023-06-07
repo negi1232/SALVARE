@@ -4,8 +4,6 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 contract SALVARE is ERC20 {
-    mapping(address => uint256) public requesterBalances;
-
     struct TrashCan {
         uint256 id;
         address trashCanOwner;
@@ -35,6 +33,7 @@ contract SALVARE is ERC20 {
 
     event StartWork(address indexed worker, uint256 indexed id);
     event DoneWork(address indexed worker, uint256 indexed id);
+    event Balance(address indexed worker, uint256 balance);
 
     constructor() ERC20("SALVAREToken", "SALVARE") {
         _initTrashCan();
@@ -234,6 +233,8 @@ contract SALVARE is ERC20 {
         // trashWeight != 0 -> isWorking
         workerToWork[worker].gram = trashWeight;
         workerToWork[worker].id = id;
+
+        trashCans[id].trashCanAmount -= trashWeight;
         emit StartWork(worker, id);
     }
 
@@ -250,11 +251,12 @@ contract SALVARE is ERC20 {
         //actualWeight is weight of trash on Recycle center 500g
         //trashWeight is weight of trash brought by Worker 1000g
         emit DoneWork(worker, workerToWork[worker].id);
+        emit Balance(worker, balanceOf(worker)+actualWeight * 10 ** 18);
         workerToWork[worker].gram = 0;
         workerToWork[worker].id = 0;
 
         if (trashWeight - trashWeight / 10 < actualWeight) {
-            _transfer(address(this), worker, trashWeight * 10 ** 18);
+            _transfer(address(this), worker, actualWeight * 10 ** 18);
         }
     }
 }
