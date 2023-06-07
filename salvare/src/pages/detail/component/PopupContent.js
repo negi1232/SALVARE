@@ -83,6 +83,7 @@ const PopupContent = ({ pin, cont, setId, isOpen, closeModal }) => {
               <label>仕事を開始する</label>
 
               <RangeSlider
+                tooltip={false}
                 value={value}
                 onChange={changeEvent => setValue(parseInt(changeEvent.target.value))}
                 style={{
