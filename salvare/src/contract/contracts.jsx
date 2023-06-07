@@ -183,24 +183,22 @@ async event_done_work(setId,id) {
     const accounts = await ethereum.request({ method: 'eth_accounts' });
 
     const account = accounts[0];
-    const  transfer_filters = SALVARE_Contract.filters["Transfer"];
+    const  transfer_filters = SALVARE_Contract.filters["Balance"];
     console.log( "transfer_filters");
     // console.log(provider.off(transfer_filters(null,account)));
     // console.log(provider.listeners(transfer_filters(null,account)));
-    console.log(null,account,null);
+    console.log(null,account);
 
 
-    provider.on(transfer_filters(null,account,null), (event) => {
-      console.log("hit");
+    provider.on(transfer_filters(account,null), (event) => {
+      console.log("hitaaa");
+      console.log(event);
+      console.log(event.data);
+    //   console.log(parseInt( event.topics[1])/10**18);
       //idを設定
       //setBalance(this.fetchAccountBalance());
-      return SALVARE_Contract.balanceOf(account);
+      setBalance(event.data);
     });
-    provider.on(transfer_filters(account,null,null), (event) => {
-        console.log("hit");
-        //idを設定
-        return SALVARE_Contract.balanceOf(account);
-      });
   }
 
 

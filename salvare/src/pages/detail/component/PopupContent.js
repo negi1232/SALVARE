@@ -60,7 +60,7 @@ const PopupContent = ({ pin, cont, setId, isOpen, closeModal }) => {
         <h4>Location Info:</h4>
         <p>Amount: {parseInt(pin.trashCanAmount._hex)}グラム</p>
         <p>Max Amount: {parseInt(pin.trashCanMaxAmount._hex)}グラム</p>
-        <p>Reward: {parseInt(pin.trashCanReward._hex)}cjpy</p>
+        <p>Reward: {parseInt(pin.trashCanAmount._hex)}SALVARE</p>
         <p>Owner: {pin.trashCanOwner.slice(0, 10)}</p>
 
         <TrashCanChart amount={parseInt(pin.trashCanAmount)} max_amount={parseInt(pin.trashCanMaxAmount)} />
