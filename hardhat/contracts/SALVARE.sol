@@ -220,6 +220,7 @@ contract SALVARE is ERC20 {
     }
 
     event StartWork(address indexed worker, uint256 indexed id);
+    event DoneWork(address indexed worker, uint256 indexed id);
 
     function startWork(
         uint256 trashWeight,
@@ -254,5 +255,6 @@ contract SALVARE is ERC20 {
         }
         workerToWork[worker].gram = 0;
         workerToWork[worker].id = 0;
+        emit DoneWork(worker, workerToWork[worker].id);
     }
 }
