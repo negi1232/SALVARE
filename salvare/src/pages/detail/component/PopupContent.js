@@ -22,9 +22,10 @@ const PopupContent = ({ pin, cont, setId, isOpen, closeModal }) => {
   const recyclingCenterLocation = [parseFloat(pin.recyclingCenter.recyclingCenterLatitude._hex / 100000000000000),
   parseFloat(pin.recyclingCenter.recyclingCenterLongitude._hex / 100000000000000)]
 
-  
+
   useEffect(() => {
     cont.event_start_work(parseInt(pin.id._hex), setId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (value === 100) {

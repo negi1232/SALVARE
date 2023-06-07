@@ -9,14 +9,15 @@ function DetailTop(props) {
   const accountBlance = async () => {
     console.log( parseInt((await props.cont.fetchAccountBalance())._hex) );
     setBalance(parseInt((await props.cont.fetchAccountBalance())._hex));
-    
+
   };
   useEffect(() => {
 
     accountBlance();
     setBalance(props.cont.event_transfer());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
+
   return (
     <>
 

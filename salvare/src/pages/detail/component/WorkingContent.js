@@ -10,7 +10,7 @@ const WorkingContent = ({ pin,setId,setActive_pin,closeModal,cont }) => {
 
     const [value, setValue] = useState(0);
     const [json, setJson] = React.useState(null);
-    
+
 
     useEffect(() => {
         if (value === 100) {
@@ -22,6 +22,7 @@ const WorkingContent = ({ pin,setId,setActive_pin,closeModal,cont }) => {
       }, [value]);
       useEffect(() => {
         cont.event_done_work(setId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
     const customIcon = L.icon({
