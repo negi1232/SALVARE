@@ -17,6 +17,7 @@ const WorkingContent = ({ pin,setId,setActive_pin,closeModal,cont }) => {
             closeModal();
             setActive_pin(0);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [value]);
 
     const customIcon = L.icon({

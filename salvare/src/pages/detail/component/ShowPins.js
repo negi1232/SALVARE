@@ -33,6 +33,7 @@ const ShowPins = (props) => {
       }
     };
     get_variable();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (pins && id === 0) {
@@ -67,10 +68,10 @@ const ShowPins = (props) => {
   }
   else {
     console.log(pins,id,pins[id]);
-    
+
     return (
       <WorkingContent pin={pins[id]} setId={setId} setActive_pin={setActive_pin} closeModal={closeModal} cont={props.cont} />
-      
+
     );
   };
 }
