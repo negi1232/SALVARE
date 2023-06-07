@@ -200,6 +200,47 @@ describe("Deploy", function () {
     });
   });
 
+  describe("doneWork", function () {
+    let fixtures;
+    beforeEach(async function () {
+      fixtures = await setupFixtures();
+    });
+
+    it("Should correctly done work", async function () {
+      const {
+        salvare,
+        deployer,
+        worker1,
+        worker2,
+        robot1,
+        robot2,
+        robot3,
+        robot4,
+        robot5,
+        robot6,
+        recyclingCenter1,
+        recyclingCenter2,
+      } = fixtures;
+
+      const amountOfTrash = 1000;
+
+      const message = "Hello, world!";
+      const messageHash = ethers.utils.solidityKeccak256(["string"], [message]);
+      const messageHashBinary = ethers.utils.arrayify(messageHash);
+      const signature = await deployer.signMessage(messageHashBinary);
+
+      expect(
+        await salvare.connect(robot1).startWork(1000, messageHash, signature, 1)
+      ).not.to.be.reverted;
+
+      expect(
+        await salvare
+          .connect(recyclingCenter1)
+          .doneWork(950, messageHash, signature)
+      ).not.to.be.reverted;
+    });
+  });
+
   describe("integration test", function () {
     let fixtures;
     beforeEach(async function () {
