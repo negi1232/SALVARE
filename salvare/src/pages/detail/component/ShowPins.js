@@ -33,7 +33,7 @@ const ShowPins = (props) => {
       }
     };
     get_variable();
-  }, [props.cont]);
+  }, []);
 
   if (pins && id === 0) {
     return (
@@ -67,8 +67,10 @@ const ShowPins = (props) => {
   }
   else {
     console.log(pins,id,pins[id]);
+    
     return (
-      <WorkingContent pin={pins[id]} setId={setId} cont={props.cont} />
+      <WorkingContent pin={pins[id]} setId={setId} setActive_pin={setActive_pin} closeModal={closeModal} cont={props.cont} />
+      
     );
   };
 }

@@ -156,17 +156,21 @@ class Contracts_MetaMask {
     console.log("event_create_quiz");
     const accounts = await ethereum.request({ method: "eth_accounts" });
     const account = accounts[0];
-    console.log(provider.off(start_work_filters(account, id)));
-    console.log(provider.listeners(start_work_filters(account, id)));
-  }
-  async event_transfer(setId) {
+    console.log(provider.off(start_work_filters(account,id)));
+    console.log(provider.listeners(start_work_filters(account,id)));
+}
+async event_done_work(setId) {
     //emitを受け取る準備
-    const transfer_filters = SALVARE_Contract.filters["Transfer"];
-    console.log("transfer_filters");
-    const accounts = await ethereum.request({ method: "eth_accounts" });
+
+    const accounts = await ethereum.request({ method: 'eth_accounts' });
+
     const account = accounts[0];
-    console.log(provider.off(transfer_filters(account)));
-    console.log(provider.listeners(transfer_filters(account)));
+    const  transfer_filters = SALVARE_Contract.filters.Transfer;
+    console.log( "transfer_filters");
+    // console.log(provider.off(transfer_filters(null,account)));
+    // console.log(provider.listeners(transfer_filters(null,account)));
+    console.log(null,account,null);
+
 
     provider.once(transfer_filters(null, account, null), (event) => {
       console.log("hit");

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "leaflet-routing-machine": "^3.2.12",
     "react-bootstrap-range-slider": "^3.0.8"
   }
 }

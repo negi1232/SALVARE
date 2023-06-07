@@ -6,17 +6,18 @@ import QRCodeComponent from './qr_code';
 
 import L from 'leaflet';
 
-const WorkingContent = ({ pin,setId, cont }) => {
+const WorkingContent = ({ pin,setId,setActive_pin,closeModal,cont }) => {
 
     const [value, setValue] = useState(0);
     const [json, setJson] = React.useState(null);
-
+    cont.event_done_work(setId);
     useEffect(() => {
         if (value === 100) {
-            cont.event_transfer(setId);
             cont.sign(pin.join(','), setJson);
+            closeModal();
+            setActive_pin(0);
         }
-      }, [ cont, pin, setId, value ]);
+      }, [value]);
 
     const customIcon = L.icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
