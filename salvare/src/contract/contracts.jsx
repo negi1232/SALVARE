@@ -173,6 +173,20 @@ async event_transfer(setId) {
         setId(0);
     });
 }
+// fetch one's account amount of balance
+  async fetchAccountBalance() {
+    try {
+      if (ethereum) {
+        const accounts = await provider.listAccounts();
+        const account = accounts[0];
+        return await SALVARE_Contract.balanceOf(account);
+      } else {
+        console.log("Ethereum object does not exist");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
 }
 
