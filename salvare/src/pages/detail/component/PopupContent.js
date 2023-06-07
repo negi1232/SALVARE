@@ -3,15 +3,24 @@ import TrashCanChart from './TrashCanChart';
 import { Modal, Button } from 'react-bootstrap';
 import RangeSlider from 'react-bootstrap-range-slider';
 import './PopupContent.css';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import QRCodeComponent from './qr_code';
 
+import BestRoute from './BestRoute';
 import L from 'leaflet';
 
-const PopupContent = ({ pin, rcPins, cont,setId, isOpen, closeModal }) => {
+const PopupContent = ({ pin, cont, setId, isOpen, closeModal }) => {
 
   const [json, setJson] = React.useState(null);
   const [value, setValue] = useState(0);
+
+  const centerLocation = [(parseInt(pin.recyclingCenter.recyclingCenterLatitude._hex) + parseInt(pin.trashCanLatitude._hex )) /100000000000000/ 2,
+    (parseInt(pin.recyclingCenter.recyclingCenterLongitude._hex) + parseInt(pin.trashCanLongitude._hex)) / 100000000000000 / 2]
+
+  const trashCanLocation = [parseFloat(pin.trashCanLatitude._hex / 100000000000000),
+    parseFloat(pin.trashCanLongitude._hex / 100000000000000)]
+
+  const recyclingCenterLocation = [parseFloat(pin.recyclingCenter.recyclingCenterLatitude._hex / 100000000000000),
+                parseFloat(pin.recyclingCenter.recyclingCenterLongitude._hex / 100000000000000)]
 
   useEffect(() => {
     if (value === 100) {
@@ -20,18 +29,23 @@ const PopupContent = ({ pin, rcPins, cont,setId, isOpen, closeModal }) => {
       cont.event_start_work(parseInt(pin.id._hex),setId);
       cont.sign(pin.join(','), setJson);
     }
-  }, [ value, cont, pin ]);
+  }, [value, cont, pin, setId]);
 
-
-  const customIcon = L.icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
+    const manIcon = L.icon({
+    iconUrl: "https://cdn.discordapp.com/attachments/1105178218748710952/1115840689968795760/emoji_people_FILL1_wght400_GRAD0_opsz48.png",
+    iconSize: [41, 41],
+    iconAnchor: [20, 11],
     popupAnchor: [0, -41],
   });
 
+  const factoryIcon = L.icon({
+    // iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    iconUrl: "https://cdn.discordapp.com/attachments/1105178218748710952/1115836138343649281/factory_FILL1_wght400_GRAD0_opsz48.png",
+    iconSize: [60, 60],
+    iconAnchor: [31, 41],
+    popupAnchor: [0, -41],
+  });
 
-    
     return (
       <Modal show={isOpen} onHide={closeModal}>
         <Modal.Header closeButton>
@@ -47,36 +61,14 @@ const PopupContent = ({ pin, rcPins, cont,setId, isOpen, closeModal }) => {
           <TrashCanChart amount={parseInt(pin.trashCanAmount)} max_amount={parseInt(pin.trashCanMaxAmount)} />
 
           <p>Recycling Center: {pin.recyclingCenter.recyclingCenterName}</p>
-          <MapContainer
-            center={[(parseInt(pin.recyclingCenter.recyclingCenterLatitude._hex) + parseInt(pin.trashCanLatitude._hex )) /100000000000000/ 2,
-            (parseInt(pin.recyclingCenter.recyclingCenterLongitude._hex) + parseInt(pin.trashCanLongitude._hex))/ 100000000000000/2]}
-            zoom={16}
-            style={{ height: '50vh', width: '100%' }}
-            dragging={false}
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution="Map data &copy; OpenStreetMap contributors"
-            />
 
-            {/* trash can location from smart contract */}
-            <Marker
-              key={1}
-              position={
-                [parseFloat(pin.trashCanLatitude._hex / 100000000000000),
-                 parseFloat(pin.trashCanLongitude._hex / 100000000000000)]}
-            />
-            
-            {/* Recycling center location from dummy data*/}
-            <Marker
-              key={2}
-              position={
-                [parseFloat(pin.recyclingCenter.recyclingCenterLatitude._hex / 100000000000000),
-                parseFloat(pin.recyclingCenter.recyclingCenterLongitude._hex / 100000000000000)]}
-                icon={customIcon}
-            />
-
-          </MapContainer>
+          <BestRoute
+            initialLocation={centerLocation}
+            trashCanLocation={trashCanLocation}
+            recyclingCenterLocation={recyclingCenterLocation}
+            manIcon={manIcon}
+            factoryIcon={factoryIcon}
+          />
 
           {!json ?
 
