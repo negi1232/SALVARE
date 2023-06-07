@@ -14,7 +14,7 @@ function DetailTop(props) {
   useEffect(() => {
 
     accountBlance();
-    setBalance(parseInt(props.cont.event_transfer()._hex));
+    props.cont.event_transfer(setBalance)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

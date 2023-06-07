@@ -197,7 +197,7 @@ async event_done_work(setId,id) {
     //   console.log(parseInt( event.topics[1])/10**18);
       //idを設定
       //setBalance(this.fetchAccountBalance());
-      return event.data;
+      setBalance(event.data);
     });
   }
 
