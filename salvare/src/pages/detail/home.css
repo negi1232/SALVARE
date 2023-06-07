@@ -1,11 +1,14 @@
 #fixed-number {
     position: fixed;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin-top: 5px;
+    margin-right: 5px;
     top: 0;
     right: 0;
     font-size: 24px;
     color: #3f3f3f;
     background-color:white;
-    border: solid 1px #3f3f3f;
+    /* border: solid 1px #3f3f3f; */
     border-radius: 10px;
     padding: 10px;
     z-index:1000; /* 適切な値を指定します */
