@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import TrashCanChart from './TrashCanChart';
-import { Modal, Button } from 'react-bootstrap';
 import RangeSlider from 'react-bootstrap-range-slider';
 import './WorkingContent.css'
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
@@ -18,7 +16,7 @@ const WorkingContent = ({ pin,setId, cont }) => {
             cont.event_transfer(setId);
             cont.sign(pin.join(','), setJson);
         }
-      }, [ value ]);
+      }, [ cont, pin, setId, value ]);
 
     const customIcon = L.icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
@@ -26,8 +24,6 @@ const WorkingContent = ({ pin,setId, cont }) => {
         iconAnchor: [12, 41],
         popupAnchor: [0, -41],
     });
-
-
 
     return (
         <>

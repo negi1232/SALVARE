@@ -1,5 +1,5 @@
-import { chainId, rpc, salvare_address } from "./config";
-import { BigNumber, ethers } from "ethers";
+import { salvare_address } from "./config";
+import { ethers } from "ethers";
 import salvare_abi_json from "./salvare_abi.json";
 
 const { ethereum } = window;
