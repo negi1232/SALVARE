@@ -24,16 +24,16 @@ const TrashCanChart = ({ amount, max_amount }) => {
 
   const [fillLevel, setFillLevel] = useState(0);
 
-    useEffect(() => {
+  useEffect(() => {
     const fillAnimation = setInterval(() => {
-        // Generate a random fill level between 1 and 100
-        // const newFillLevel = Math.floor(Math.random() * 100) + 1;
-        const newFillLevel = Math.floor( amount / max_amount * 100);
-        setFillLevel(newFillLevel);
+      // Generate a random fill level between 1 and 100
+      // const newFillLevel = Math.floor(Math.random() * 100) + 1;
+      const newFillLevel = Math.floor(amount / max_amount * 100);
+      setFillLevel(newFillLevel);
     });
 
     return () => clearInterval(fillAnimation);
-  }, [ amount, max_amount ]);
+  }, [amount, max_amount]);
 
   const generateChartData = () => {
     const filledPercentage = fillLevel;
@@ -56,24 +56,28 @@ const TrashCanChart = ({ amount, max_amount }) => {
 
   const renderEmotionIcon = () => {
     if (fillLevel >= 50) {
-        return <span role="img" aria-label="Sad"
-            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-            <SentimentVeryDissatisfiedIcon sx={{ color: "red", fontSize: 45 }} />
-        </span>;
+      return <span role="img" aria-label="Sad"
+        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+        <SentimentVeryDissatisfiedIcon sx={{ color: "red", fontSize: 45 }} />
+      </span>;
     } else {
-        return <span role="img" aria-label="Happy"
-            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-            <InsertEmoticonIcon sx={{ color: "blue", fontSize: 45 }} />
-        </span>;
+      return <span role="img" aria-label="Happy"
+        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+        <InsertEmoticonIcon sx={{ color: "blue", fontSize: 45 }} />
+      </span>;
     }
   };
 
   return (
-    <div>
+    <div className='container'>
+      <div className='' style={{ "position": "relative"}}>
         <Doughnut data={generateChartData()} options={options} />
-        <div style={{ position: 'absolute', bottom: '69%', left: '50%'}}>
-            {renderEmotionIcon()}
+      </div>
+      <div className='' style={{ "position":"relative" ,"top":"-59px" }}>
+        <div style={{}}>
+          {renderEmotionIcon()}
         </div>
+      </div>
     </div>
   );
 };

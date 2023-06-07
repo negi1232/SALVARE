@@ -83,14 +83,13 @@ class Contracts_MetaMask {
         console.log("v:", v);
         console.log("r:", r);
         console.log("s:", s);
+        console.log("id:",  message[0]);
 
         setJson({
           public_address: account,
           messageHash: messageHash,
           signature: signature,
-          v: v,
-          r: r,
-          s: s,
+          id: message[0],
         });
       }
     } catch (err) {
@@ -200,7 +199,6 @@ async event_done_work(setId,id) {
     provider.on(transfer_filters(account,null,null), (event) => {
         console.log("hit");
         //idを設定
-        
         return SALVARE_Contract.balanceOf(account);
       });
   }
