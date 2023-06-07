@@ -159,7 +159,7 @@ class Contracts_MetaMask {
     console.log(provider.off(start_work_filters(account,id)));
     console.log(provider.listeners(start_work_filters(account,id)));
 }
-async event_done_work(setId) {
+async event_done_work(setId,id) {
     //emitを受け取る準備
 
     const accounts = await ethereum.request({ method: 'eth_accounts' });
@@ -168,14 +168,14 @@ async event_done_work(setId) {
     const  done_work_filters = SALVARE_Contract.filters["DoneWork"];
     console.log( "event_done_work");
 
-    provider.once(done_work_filters(account,0), (event) => {
+    provider.once(done_work_filters(account,id), (event) => {
       console.log("hit");
       //idを設定
-      console.log(provider.off(done_work_filters(account,0)));
-      console.log(provider.listeners(done_work_filters(account,0)));
+      console.log(provider.off(done_work_filters(account,id)));
+      console.log(provider.listeners(done_work_filters(account,id)));
       setId(0);
     });
-    console.log(provider.listeners(done_work_filters(account,0)));
+    console.log(provider.listeners(done_work_filters(account,id)));
   }
 
   async event_transfer(setBalance) {

@@ -46,7 +46,7 @@ function App() {
                <Route path={'/list'} element={<List_top url={'user_page'} cont={cont}/>}  />
              </Routes>
              <Routes>
-               <Route path={'/detail'} element={<Detail_top url={'create_quiz'} cont={cont}/>}  />
+               <Route path={'/'} element={<Detail_top url={'create_quiz'} cont={cont}/>}  />
              </Routes>
 
            </BrowserRouter>

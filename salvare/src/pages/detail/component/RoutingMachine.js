@@ -27,7 +27,12 @@ const RoutingMachine = ({
         }).addTo(map);
         return () => {
             map.removeLayer(routingControl);
-            map.removeControl(routingControl)
+            try {
+                map.removeControl(routingControl);
+            }
+            catch (e) {
+                console.log(e);
+            }
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -51,7 +51,7 @@ function Nav_menu(props) {
             
             <div className='col-3'>
                 <Nav.Item>
-                  <Nav.Link eventKey="/detail" href={process.env.PUBLIC_URL+"/detail"}>
+                  <Nav.Link eventKey="/detail" href={process.env.PUBLIC_URL+"/"}>
                     <div className='col-12 '>
                       <MdOutlineQuiz size={30}/>
                     </div>

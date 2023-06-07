@@ -249,13 +249,12 @@ contract SALVARE is ERC20 {
         uint256 trashWeight = workerToWork[worker].gram;
         //actualWeight is weight of trash on Recycle center 500g
         //trashWeight is weight of trash brought by Worker 1000g
+        emit DoneWork(worker, workerToWork[worker].id);
         workerToWork[worker].gram = 0;
         workerToWork[worker].id = 0;
 
         if (trashWeight - trashWeight / 10 < actualWeight) {
             _transfer(address(this), worker, trashWeight * 10 ** 18);
         }
-
-        emit DoneWork(worker, workerToWork[worker].id);
     }
 }

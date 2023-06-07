@@ -21,7 +21,7 @@ const WorkingContent = ({ pin,setId,setActive_pin,closeModal,cont }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [value]);
       useEffect(() => {
-        cont.event_done_work(setId);
+        cont.event_done_work(setId,parseInt(pin.id._hex));
     // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
