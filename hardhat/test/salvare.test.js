@@ -101,7 +101,7 @@ describe("Deploy", function () {
 
       const trashCans = await salvare.getTrashCans();
 
-      console.log(await salvare.trashCans[1].amountOfTrash);
+      // console.log(await salvare.trashCans[1].amountOfTrash);
     });
 
     it("Should set amount of trash by robot2", async function () {
@@ -151,7 +151,7 @@ describe("Deploy", function () {
         fixtures;
 
       const trashCans = await salvare.getTrashCans();
-      console.log(trashCans);
+      // console.log(trashCans);
     });
   });
 

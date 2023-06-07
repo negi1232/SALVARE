@@ -251,11 +251,7 @@ contract SALVARE is ERC20 {
         workerToWork[worker].gram = 0;
         workerToWork[worker].id = 0;
         if (trashWeight - trashWeight / 10 < actualWeight) {
-            bool success = transfer(
-                address(this),
-                worker,
-                trashWeight * 10 ** 18
-            );
+            bool success = transfer(worker, trashWeight * 10 ** 18);
             require(success, "Transfer failed.");
         }
     }
