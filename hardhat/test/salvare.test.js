@@ -1,4 +1,5 @@
 const { expect } = require("chai");
+const { BigNumber } = require("ethers");
 const { ethers } = require("hardhat");
 
 const setupFixtures = async (name, symbol, startTime) => {
@@ -73,6 +74,17 @@ describe("Deploy", function () {
         recyclingCenter2,
       } = fixtures;
     });
+
+    it("Should initialize workerToWork", async function () {
+      const { salvare, worker1, worker2 } = fixtures;
+
+      const workerToWork1 = await salvare.getWork(worker1.address);
+      const workerToWork2 = await salvare.getWork(worker2.address);
+      expect(workerToWork1.id).to.equal(0);
+      expect(workerToWork2.id).to.equal(0);
+      expect(workerToWork1.gram).to.equal(0);
+      expect(workerToWork2.gram).to.equal(0);
+    });
   });
 
   describe("setAmountOfTrash", function () {
@@ -98,10 +110,6 @@ describe("Deploy", function () {
 
       expect(await salvare.connect(robot1).setAmountOfTrash(1001, 1)).not.to.be
         .reverted;
-
-      const trashCans = await salvare.getTrashCans();
-
-      // console.log(await salvare.trashCans[1].amountOfTrash);
     });
 
     it("Should set amount of trash by robot2", async function () {
@@ -147,11 +155,33 @@ describe("Deploy", function () {
     });
 
     it("Should get trash cans", async function () {
-      const { salvare, robot1, robot2, robot3, robot4, robot5, robot6 } =
-        fixtures;
+      const { salvare, robot1 } = fixtures;
 
       const trashCans = await salvare.getTrashCans();
-      // console.log(trashCans);
+
+      expect(trashCans[1].id).to.equal(1);
+      expect(trashCans[1].trashCanOwner).to.equal(
+        "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4"
+      );
+      expect(await trashCans[1].trashCan).to.equal(
+        ethers.constants.AddressZero
+      );
+      expect(trashCans[1].trashCanLocationAddress).to.equal("渋谷 ハチ公前");
+      expect(trashCans[1].trashCanLocationImage).to.equal(
+        "https://cdn.discordapp.com/attachments/1087354845675126786/1115645639053807738/image.png"
+      );
+      expect(trashCans[1].trashCanLatitude).to.equal(
+        ethers.BigNumber.from((3565834639713606).toString())
+      );
+      expect(await trashCans[1].trashCanLongitude).to.equal(
+        ethers.BigNumber.from((13970303583403240).toString())
+      );
+      expect(trashCans[1].trashCanAmount).to.equal(10000);
+      expect(trashCans[1].trashCanMaxAmount).to.equal(20000);
+      expect(trashCans[1].trashCanReward).to.equal(0);
+
+      const recyclingCenterData = await trashCans[1].recyclingCenter;
+      expect();
     });
   });
 
@@ -200,6 +230,50 @@ describe("Deploy", function () {
     });
   });
 
+  describe("startWork", function () {
+    let fixtures;
+    beforeEach(async function () {
+      fixtures = await setupFixtures();
+    });
+
+    it("Should correctly start work", async function () {
+      const {
+        salvare,
+        deployer,
+        worker1,
+        worker2,
+        robot1,
+        robot2,
+        robot3,
+        robot4,
+        robot5,
+        robot6,
+        recyclingCenter1,
+        recyclingCenter2,
+      } = fixtures;
+
+      let workerToWork1;
+      workerToWork1 = await salvare.getWork(worker1.address);
+      expect(workerToWork1.id).to.equal(0);
+      expect(workerToWork1.gram).to.equal(0);
+
+      const amountOfTrash = 1000;
+
+      const message = "Hello, world!";
+      const messageHash = ethers.utils.solidityKeccak256(["string"], [message]);
+      const messageHashBinary = ethers.utils.arrayify(messageHash);
+      const signature = await worker1.signMessage(messageHashBinary);
+
+      expect(
+        await salvare.connect(robot1).startWork(1000, messageHash, signature, 1)
+      ).not.to.be.reverted;
+
+      workerToWork1 = await salvare.getWork(worker1.address);
+      expect(workerToWork1.id).to.equal(1);
+      expect(workerToWork1.gram).to.equal(amountOfTrash);
+    });
+  });
+
   describe("doneWork", function () {
     let fixtures;
     beforeEach(async function () {
@@ -227,7 +301,7 @@ describe("Deploy", function () {
       const message = "Hello, world!";
       const messageHash = ethers.utils.solidityKeccak256(["string"], [message]);
       const messageHashBinary = ethers.utils.arrayify(messageHash);
-      const signature = await deployer.signMessage(messageHashBinary);
+      const signature = await worker1.signMessage(messageHashBinary);
 
       expect(
         await salvare.connect(robot1).startWork(1000, messageHash, signature, 1)
