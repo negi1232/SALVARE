@@ -1,6 +1,7 @@
 import { salvare_address } from "./config";
 import { ethers } from "ethers";
 import salvare_abi_json from "./salvare_abi.json";
+import salvare_data from "./contracts-data/mumbai/SALVARE-data.json";
 
 const { ethereum } = window;
 
@@ -10,7 +11,7 @@ const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 
 const SALVARE_Contract = new ethers.Contract(
-  salvare_address,
+  salvare_data[0].address,
   salvare_abi,
   signer
 );
@@ -134,46 +135,46 @@ class Contracts_MetaMask {
   }
 
   //event StartWork(address indexed worker, uint256 indexed id);
-  async event_start_work(id,setId) {
+  async event_start_work(id, setId) {
     //emitを受け取る準備
-    const  start_work_filters = SALVARE_Contract.filters["StartWork"];
-    console.log( "start_work_filters");
-    const accounts = await ethereum.request({ method: 'eth_accounts' });
+    const start_work_filters = SALVARE_Contract.filters["StartWork"];
+    console.log("start_work_filters");
+    const accounts = await ethereum.request({ method: "eth_accounts" });
     const account = accounts[0];
-    console.log(provider.off(start_work_filters(account,id)));
-    console.log(provider.listeners(start_work_filters(account,id)));
+    console.log(provider.off(start_work_filters(account, id)));
+    console.log(provider.listeners(start_work_filters(account, id)));
 
-    console.log(account,id);
-    provider.once(start_work_filters(account,id), (event) => {
-        console.log("hit");
-        //idを設定
-        setId(parseInt(event.topics[2]));
+    console.log(account, id);
+    provider.once(start_work_filters(account, id), (event) => {
+      console.log("hit");
+      //idを設定
+      setId(parseInt(event.topics[2]));
     });
-}
-async stop_event_start_work(id) {
-    const  start_work_filters = SALVARE_Contract.filters["StartWork"];
+  }
+  async stop_event_start_work(id) {
+    const start_work_filters = SALVARE_Contract.filters["StartWork"];
     console.log("event_create_quiz");
-    const accounts = await ethereum.request({ method: 'eth_accounts' });
+    const accounts = await ethereum.request({ method: "eth_accounts" });
     const account = accounts[0];
-    console.log(provider.off(start_work_filters(account,id)));
-    console.log(provider.listeners(start_work_filters(account,id)));
-}
-async event_transfer(setId) {
+    console.log(provider.off(start_work_filters(account, id)));
+    console.log(provider.listeners(start_work_filters(account, id)));
+  }
+  async event_transfer(setId) {
     //emitを受け取る準備
-    const  transfer_filters = SALVARE_Contract.filters["Transfer"];
-    console.log( "transfer_filters");
-    const accounts = await ethereum.request({ method: 'eth_accounts' });
+    const transfer_filters = SALVARE_Contract.filters["Transfer"];
+    console.log("transfer_filters");
+    const accounts = await ethereum.request({ method: "eth_accounts" });
     const account = accounts[0];
     console.log(provider.off(transfer_filters(account)));
     console.log(provider.listeners(transfer_filters(account)));
 
-    provider.once(transfer_filters(null,account,null), (event) => {
-        console.log("hit");
-        //idを設定
-        setId(0);
+    provider.once(transfer_filters(null, account, null), (event) => {
+      console.log("hit");
+      //idを設定
+      setId(0);
     });
-}
-// fetch one's account amount of balance
+  }
+  // fetch one's account amount of balance
   async fetchAccountBalance() {
     try {
       if (ethereum) {
@@ -187,7 +188,6 @@ async event_transfer(setId) {
       console.log(err);
     }
   }
-
 }
 
 export { Contracts_MetaMask };
