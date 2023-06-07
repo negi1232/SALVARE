@@ -1,4 +1,4 @@
-import { salvare_address } from "./config";
+// import { salvare_address } from "./config";
 import { ethers } from "ethers";
 import salvare_abi_json from "./salvare_abi.json";
 import salvare_data from "./contracts-data/mumbai/SALVARE-data.json";
@@ -141,15 +141,15 @@ class Contracts_MetaMask {
     console.log("start_work_filters");
     const accounts = await ethereum.request({ method: "eth_accounts" });
     const account = accounts[0];
-    console.log(provider.off(start_work_filters(account, id)));
-    console.log(provider.listeners(start_work_filters(account, id)));
-
     console.log(account, id);
     provider.once(start_work_filters(account, id), (event) => {
       console.log("hit");
       //idを設定
+      console.log(provider.off(start_work_filters(account, id)));
+      console.log(provider.listeners(start_work_filters(account, id)));
       setId(parseInt(event.topics[2]));
     });
+    console.log(provider.listeners(start_work_filters(account, id)));
   }
   async stop_event_start_work(id) {
     const start_work_filters = SALVARE_Contract.filters["StartWork"];
@@ -165,19 +165,47 @@ async event_done_work(setId) {
     const accounts = await ethereum.request({ method: 'eth_accounts' });
 
     const account = accounts[0];
-    const  transfer_filters = SALVARE_Contract.filters.Transfer;
+    const  done_work_filters = SALVARE_Contract.filters["DoneWork"];
+    console.log( "event_done_work");
+
+    provider.once(done_work_filters(account,0), (event) => {
+      console.log("hit");
+      //idを設定
+      console.log(provider.off(done_work_filters(account,0)));
+      console.log(provider.listeners(done_work_filters(account,0)));
+      setId(0);
+    });
+    console.log(provider.listeners(done_work_filters(account,0)));
+  }
+
+  async event_transfer(setBalance) {
+    //emitを受け取る準備
+
+    const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+    const account = accounts[0];
+    const  transfer_filters = SALVARE_Contract.filters["Transfer"];
     console.log( "transfer_filters");
     // console.log(provider.off(transfer_filters(null,account)));
     // console.log(provider.listeners(transfer_filters(null,account)));
     console.log(null,account,null);
 
 
-    provider.once(transfer_filters(null, account, null), (event) => {
+    provider.on(transfer_filters(null,account,null), (event) => {
       console.log("hit");
       //idを設定
-      setId(0);
+      //setBalance(this.fetchAccountBalance());
+      return SALVARE_Contract.balanceOf(account);
     });
+    provider.on(transfer_filters(account,null,null), (event) => {
+        console.log("hit");
+        //idを設定
+        
+        return SALVARE_Contract.balanceOf(account);
+      });
   }
+
+
   // fetch one's account amount of balance
   async fetchAccountBalance() {
     try {

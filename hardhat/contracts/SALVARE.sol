@@ -34,6 +34,7 @@ contract SALVARE is ERC20 {
     }
 
     event StartWork(address indexed worker, uint256 indexed id);
+    event DoneWork(address indexed worker, uint256 indexed id);
 
     constructor() ERC20("SALVAREToken", "SALVARE") {
         _initTrashCan();
@@ -250,9 +251,12 @@ contract SALVARE is ERC20 {
         //trashWeight is weight of trash brought by Worker 1000g
         workerToWork[worker].gram = 0;
         workerToWork[worker].id = 0;
+
         if (trashWeight - trashWeight / 10 < actualWeight) {
             bool success = transfer(worker, trashWeight * 10 ** 18);
             require(success, "Transfer failed.");
         }
+
+        emit DoneWork(worker, workerToWork[worker].id);
     }
 }
