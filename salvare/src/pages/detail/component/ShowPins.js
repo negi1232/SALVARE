@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import PopupContent from './PopupContent';
 import WorkingContent from './WorkingContent';
-import TrashCanChart from './TrashCanChart';
-import dummyData from './dummyData.json';
 
 const ShowPins = (props) => {
   const [pins, setPins] = useState([]);
-  const [data, setData] = useState(null);
-  const [mapCenter, setMapCenter] = useState([35.658580, 139.700464]);
+  const [mapCenter, ] = useState([35.657580, 139.701964]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [active_pin,setActive_pin]=useState(null);
 
@@ -17,7 +14,7 @@ const ShowPins = (props) => {
   const handleMarkerClick = () => {
     setIsModalOpen(true);
   };
-  
+
   // モーダルが閉じられた際のハンドラ
   const closeModal = () => {
     setIsModalOpen(false);
@@ -33,14 +30,12 @@ const ShowPins = (props) => {
         setPins(_data);
         const _data1=await props.cont.getIsWorking()
         setId(parseInt(_data1.id._hex));
-        console.log(parseInt(_data1.id._hex));
       }
     };
-    console.log("useEffect");
     get_variable();
-  }, []);
+  }, [props.cont]);
 
-  if (pins && id===0) {
+  if (pins && id === 0) {
     return (
       <MapContainer
         center={mapCenter}
