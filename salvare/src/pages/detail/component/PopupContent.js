@@ -76,6 +76,7 @@ const PopupContent = ({ pin, cont, setId, isOpen, closeModal }) => {
             <div className='col-1' />
             <div className='col-10'>
               <label>仕事を開始する</label>
+
               <RangeSlider
                 value={value}
                 onChange={changeEvent => setValue(parseInt(changeEvent.target.value))}
@@ -84,7 +85,8 @@ const PopupContent = ({ pin, cont, setId, isOpen, closeModal }) => {
                   backgroundColor: 'blue',
                   // その他のスタイルプロパティ
                 }}
-              />
+                />
+
             </div>
           </div>:
 
@@ -94,7 +96,6 @@ const PopupContent = ({ pin, cont, setId, isOpen, closeModal }) => {
             <QRCodeComponent json={json} />
             </div>
           </div>
-
           }
 
         </Modal.Body>
