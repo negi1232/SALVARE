@@ -20,18 +20,21 @@ contract SALVARE is ERC20 {
         RecyclingCenter recyclingCenter;
     }
 
-    struct Work{
+    struct Work {
         uint256 id;
         uint256 gram;
     }
 
-    struct RecyclingCenter{
+    struct RecyclingCenter {
         uint256 id;
         string recyclingCenterName;
         string recyclingCenterLocationAddress;
         uint256 recyclingCenterLatitude;
         uint256 recyclingCenterLongitude;
     }
+
+    event StartWork(address indexed worker, uint256 indexed id);
+    event DoneWork(address indexed worker, uint256 indexed id);
 
     constructor() ERC20("SALVAREToken", "SALVARE") {
         _initTrashCan();
@@ -55,7 +58,7 @@ contract SALVARE is ERC20 {
                 0,
                 0,
                 0,
-                RecyclingCenter(0,"","",0,0)
+                RecyclingCenter(0, "", "", 0, 0)
             )
         ); //識別用のダミーを作成
 
@@ -192,7 +195,7 @@ contract SALVARE is ERC20 {
         ); //識別用のダミーを作成trashCanList[msg.sender]=1;
     }
 
-    function isWorking( address worker ) public view returns (Work memory) {
+    function isWorking(address worker) public view returns (Work memory) {
         return workerToWork[worker];
     }
 
@@ -202,8 +205,7 @@ contract SALVARE is ERC20 {
         trashCans[id].trashCanAmount = _newAmount;
     }
 
-    function getTrashCans(
-    ) public view returns (TrashCan [] memory) {
+    function getTrashCans() public view returns (TrashCan[] memory) {
         return trashCans;
     }
 
@@ -218,9 +220,6 @@ contract SALVARE is ERC20 {
         return
             ECDSA.recover(ECDSA.toEthSignedMessageHash(messageHash), signature);
     }
-
-    event StartWork(address indexed worker, uint256 indexed id);
-    event DoneWork(address indexed worker, uint256 indexed id);
 
     function startWork(
         uint256 trashWeight,
@@ -250,11 +249,14 @@ contract SALVARE is ERC20 {
         uint256 trashWeight = workerToWork[worker].gram;
         //actualWeight is weight of trash on Recycle center 500g
         //trashWeight is weight of trash brought by Worker 1000g
-        if ( trashWeight - trashWeight/10 < actualWeight){
-           _transfer(address(this), worker, trashWeight *10**18);
-        }
         workerToWork[worker].gram = 0;
         workerToWork[worker].id = 0;
+
+        if (trashWeight - trashWeight / 10 < actualWeight) {
+            bool success = transfer(worker, trashWeight * 10 ** 18);
+            require(success, "Transfer failed.");
+        }
+
         emit DoneWork(worker, workerToWork[worker].id);
     }
 }
