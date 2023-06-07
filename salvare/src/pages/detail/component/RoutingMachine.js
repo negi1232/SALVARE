@@ -30,7 +30,7 @@ const RoutingMachine = ({
             map.removeControl(routingControl)
       };
     }
-    }, [map, trashCanLocation, recyclingCenterLocation]);
+    }, []);
 
     return null;
     };

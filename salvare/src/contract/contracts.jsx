@@ -158,21 +158,39 @@ async stop_event_start_work(id) {
     console.log(provider.off(start_work_filters(account,id)));
     console.log(provider.listeners(start_work_filters(account,id)));
 }
-async event_transfer(setId) {
+async event_done_work(setId) {
     //emitを受け取る準備
-    const  transfer_filters = SALVARE_Contract.filters["Transfer"];
-    console.log( "transfer_filters");
+
     const accounts = await ethereum.request({ method: 'eth_accounts' });
     const account = accounts[0];
-    console.log(provider.off(transfer_filters(account)));
-    console.log(provider.listeners(transfer_filters(account)));
+    const  transfer_filters = SALVARE_Contract.filters.Transfer;
+    console.log( "transfer_filters");
+    // console.log(provider.off(transfer_filters(null,account)));
+    // console.log(provider.listeners(transfer_filters(null,account)));
+    console.log(null,account,null);
 
-    provider.once(transfer_filters(null,account,null), (event) => {
-        console.log("hit");
-        //idを設定
+    provider.once(transfer_filters(null,account,null), (from, to, amount) => {
+        console.log(`send to:  ${to} ${amount}`);
         setId(0);
-    });
+      })
+
 }
+
+// async event_transfer(setBalance) {
+//     //emitを受け取る準備
+//     const  transfer_filters = SALVARE_Contract.filters["Transfer"];
+//     console.log( "transfer_filters");
+//     const accounts = await ethereum.request({ method: 'eth_accounts' });
+//     const account = accounts[0];
+//     console.log(provider.off(transfer_filters(account)));
+//     console.log(provider.listeners(transfer_filters(account)));
+
+//     provider.once(transfer_filters(null,account,null), (event) => {
+//         // setBalance(this.fetchAccountBalance());
+//         console.log("hit2");
+//     });
+// }
+
 // fetch one's account amount of balance
   async fetchAccountBalance() {
     try {
