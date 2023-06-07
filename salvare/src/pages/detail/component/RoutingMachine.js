@@ -30,7 +30,8 @@ const RoutingMachine = ({
             map.removeControl(routingControl)
       };
     }
-    }, [map, trashCanLocation, recyclingCenterLocation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return null;
     };
