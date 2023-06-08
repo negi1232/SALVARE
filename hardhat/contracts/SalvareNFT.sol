@@ -12,8 +12,8 @@ contract SalvareNFT is ERC721, Pausable {
     uint256 public mintableAmount;
     address public admin;
     ISALVARE public salvare;
-    string public tokenUriImage = "ipfs://";
-    string public contractUriJson = "ipfs://";
+    string public tokenUriImage;
+    string public contractUriJson;
     string public externalUrl;
     string public description;
 
