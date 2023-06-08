@@ -7,13 +7,15 @@ import "@openzeppelin/contracts/utils/Base64.sol";
 
 import "./interfaces/ISALVARE.sol";
 
-contract Daoathon is ERC721, Pausable {
+contract SalvareNFT is ERC721, Pausable {
     uint256 public tokenIds;
+    uint256 public mintableAmount;
     address public admin;
+    ISALVARE public salvare;
     string public tokenUriImage = "ipfs://";
     string public contractUriJson = "ipfs://";
-    string public externalUrl = "https://dao-a-thon-front.vercel.app/";
-    ISALVARE public salvare;
+    string public externalUrl;
+    string public description;
 
     constructor() ERC721("SalvareNFT", "SFNT") {
         admin = msg.sender;
@@ -53,6 +55,10 @@ contract Daoathon is ERC721, Pausable {
         salvare = ISALVARE(salvareAddress);
     }
 
+    function setMintableAmount(uint256 amount) external onlyAdmin {
+        mintableAmount = amount;
+    }
+
     function _beforeTokenTransfer(
         address from,
         address to,
@@ -71,7 +77,11 @@ contract Daoathon is ERC721, Pausable {
     }
 
     function mintNft() external whenNotPaused {
-        require(salvare.balanceOf(msg.sender) > 0, "No SALVARE tokens");
+        require(
+            salvare.balanceOf(msg.sender) >= mintableAmount ||
+                msg.sender == admin,
+            "No SALVARE tokens"
+        );
         ++tokenIds;
         _safeMint(msg.sender, hashMsgSender());
     }
@@ -95,7 +105,9 @@ contract Daoathon is ERC721, Pausable {
                             tokenUriImage,
                             '", "external_url": "',
                             externalUrl,
-                            '", "description": "": ""}'
+                            '", "description": "',
+                            description,
+                            '", "name": "SalvareNFT"}'
                         )
                     )
                 )
