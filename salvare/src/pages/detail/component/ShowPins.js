@@ -34,7 +34,7 @@ const ShowPins = (props) => {
     };
     get_variable();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [active_pin]);
 
   if (pins && id === 0) {
     return (

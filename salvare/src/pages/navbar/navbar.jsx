@@ -69,7 +69,7 @@ function Nav_menu(props) {
                       <AiOutlineUser size={30}/>
                     </div>
                     <div className='col-12 d-flex justify-content-center align-items-center'>
-                      <font size="2">myPage</font>
+                      <font size="2">MyPage</font>
                     </div>
                   </Nav.Link>
                 </Nav.Item>
