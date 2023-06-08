@@ -5,14 +5,17 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
+import "./interfaces/ISALVARE.sol";
+
 contract Daoathon is ERC721, Pausable {
-    uint256 public tokenId;
+    uint256 public tokenIds;
     address public admin;
     string public tokenUriImage = "ipfs://";
     string public contractUriJson = "ipfs://";
-    string public externalUrl = "";
+    string public externalUrl = "https://dao-a-thon-front.vercel.app/";
+    ISALVARE public salvare;
 
-    constructor() ERC721("SalvareNFT", "SNFT") {
+    constructor() ERC721("SalvareNFT", "SFNT") {
         admin = msg.sender;
     }
 
@@ -46,6 +49,10 @@ contract Daoathon is ERC721, Pausable {
         externalUrl = _externalUrl;
     }
 
+    function setSalvare(address salvareAddress) external onlyAdmin {
+        salvare = ISALVARE(salvareAddress);
+    }
+
     function _beforeTokenTransfer(
         address from,
         address to,
@@ -64,19 +71,20 @@ contract Daoathon is ERC721, Pausable {
     }
 
     function mintNft() external whenNotPaused {
-        ++tokenId;
-        _safeMint(msg.sender, tokenId);
+        require(salvare.balanceOf(msg.sender) > 0, "No SALVARE tokens");
+        ++tokenIds;
+        _safeMint(msg.sender, hashMsgSender());
     }
 
-    function burnNft(uint256) external {
-        --tokenId;
-        _burn(uint256);
+    function burnNft() external {
+        --tokenIds;
+        _burn(hashMsgSender());
     }
 
     function tokenURI(
-        uint256 _tokenId
+        uint256 tokenId
     ) public view override returns (string memory) {
-        _requireMinted(_tokenId);
+        _requireMinted(tokenId);
         return
             string(
                 abi.encodePacked(
@@ -87,7 +95,7 @@ contract Daoathon is ERC721, Pausable {
                             tokenUriImage,
                             '", "external_url": "',
                             externalUrl,
-                            '", "description": "", "name": "SalvareNFT"}'
+                            '", "description": "": ""}'
                         )
                     )
                 )
